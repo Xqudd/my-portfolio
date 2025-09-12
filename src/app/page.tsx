@@ -60,7 +60,7 @@ export default function Home() {
 
         {/* Quick Skills Snapshot */}
         <section className="max-w-3xl text-center">
-          <h2 className="text-xl font-semibold mb-2">Skills Snapshot</h2>
+          <h2 style ={{color: "black"}}> Skills Snapshot</h2>
           <p className="text-gray-700">
             Python • Java • JavaScript • C • Scratch • Robotics • Arduino (Elegoo Uno R3) •
             Web Development • Breadboarding • Circuit Design • Game Development
