@@ -2,7 +2,7 @@
 import Image from "next/image";
 import styles from "./IndentedList.module.css";
 import CodeBlock from "./CodeBlock.js";
-import Script from "next/script";
+
 
 export default function Home() {
   return (
@@ -52,7 +52,7 @@ export default function Home() {
             fontWeight: "bold",
           }}
         >
-          Anden's
+          Anden&apos;s
         </h2>
         <h1 className="animated-text text-3xl sm:text-4xl font-bold text-center">
           Eportfolio
@@ -73,7 +73,7 @@ export default function Home() {
             About Me
           </summary>
           <p className="mt-2">
-            I am a student at UCF pursuing a degree in Computer Science. I’m passionate about
+            I am a student at UCF pursuing a degree in Computer Science. I&apos;m passionate about
             problem-solving, building real-world projects, and always eager to learn new
             technologies.
           </p>
