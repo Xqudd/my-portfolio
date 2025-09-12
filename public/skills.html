@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My HTML Skills</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      font-family: system-ui, sans-serif;
+      background: linear-gradient(135deg, #1e1e1e, #3a3a3a);
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      padding: 2rem;
+    }
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      text-align: center;
+      animation: fadeIn 1s ease-in-out forwards;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+      width: 100%;
+      max-width: 900px;
+      margin-top: 1rem;
+    }
+    .card {
+      background: rgba(255,255,255,0.08);
+      backdrop-filter: blur(4px);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 12px;
+      padding: 1rem;
+      transition: transform 0.3s ease, background 0.3s ease;
+      cursor: pointer;
+    }
+    .card:hover {
+      transform: translateY(-5px) scale(1.03);
+      background: rgba(255,255,255,0.15);
+    }
+    .card h2 {
+      margin-top: 0;
+    }
+    .button-container {
+      margin-top: 2rem;
+    }
+    .cool-btn {
+      background: #007acc;
+      border: none;
+      color: white;
+      font-size: 1rem;
+      padding: 0.6rem 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.2s ease;
+    }
+    .cool-btn:hover {
+      background: #005fa3;
+      transform: scale(1.05);
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes confetti {
+      0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+    }
+    .confetti {
+      position: fixed;
+      top: 0;
+      left: 50%;
+      width: 10px;
+      height: 10px;
+      background: var(--color);
+      border-radius: 2px;
+      animation: confetti 2s linear forwards;
+      z-index: 999;
+    }
+  </style>
+</head>
+<body>
+  <h1>My HTML Skills</h1>
+
+  <div class="grid">
+    <div class="card">
+      <h2>Saucy Layouts</h2>
+      <p>Responsive grids, flexbox, and clean design that works for many screen sizes.</p>
+    </div>
+    <div class="card">
+      <h2>Animations</h2>
+      <p>keyframes and buttery smooth transitions to bring elements to life.</p>
+    </div>
+    <div class="card">
+      <h2>Interactivity</h2>
+      <p>Buttons, hover effects, and subtle animations that make you feel good to use.</p>
+    </div>
+    <div class="card">
+      <h2>Semantic HTML</h2>
+      <p>Readable, accessible, and well-structured code that follows best practices.</p>
+    </div>
+  </div>
+
+  <div class="button-container">
+    <button class="cool-btn" onclick="celebrate()">Click Me 🎉</button>
+  </div>
+
+  <script>
+    function celebrate() {
+      for (let i = 0; i < 120; i++) {
+        const confetti = document.createElement("div");
+        confetti.classList.add("confetti");
+        confetti.style.setProperty("--color", `hsl(${Math.random() * 360}, 100%, 50%)`);
+        confetti.style.left = `${Math.random() * 100}vw`;
+        confetti.style.animationDuration = `${1 + Math.random()}s`;
+        document.body.appendChild(confetti);
+        setTimeout(() => confetti.remove(), 2000);
+      }
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Weather Program</title>
+  <style>
+    body {
+      font-family: monospace;
+      background: #1e1e1e;
+      color: #e5e5e5;
+      margin: 0;
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      height: 500px;
+    }
+    select, button {
+      background: #2c2c2c;
+      color: white;
+      border: 1px solid #444;
+      border-radius: 4px;
+      padding: 0.4rem 0.6rem;
+      font-size: 1rem;
+    }
+    button {
+      background: #007acc;
+      cursor: pointer;
+      border: none;
+    }
+    button:hover { background: #005fa3; }
+    #terminal {
+      background: black;
+      color: white;
+      padding: 1rem;
+      border-radius: 8px;
+      flex-grow: 1;
+      overflow-y: auto;
+      white-space: pre-wrap;
+      font-size: 14px;
+    }
+    .control-bar {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="control-bar">
+    <label>
+      State:
+      <select id="state">
+        <option value="">--Select State--</option>
+      </select>
+    </label>
+
+    <label>
+      City:
+      <select id="city" disabled>
+        <option value="">--Select City--</option>
+      </select>
+    </label>
+
+    <button id="runBtn" onclick="runCode()" disabled>Run Program
+
+    </button>
+  </div>
+
+  <div id="terminal">(Select a state and city, then click "Run Program")</div>
+
+  <script>
+    const API_KEY = "64b81bf89efa71f9e12db9d02e4f7907";
+    // Expanded cityData object — example subset
+    const cityData = {
+      "Florida": {
+        "Jacksonville": "4160021",
+        "Miami": "4164138",
+        "Tampa": "4174757",
+        "Orlando": "4167147",
+        "Tallahassee": "4174715",
+        "Fort Lauderdale": "4155966",
+        "Saint Augustine": "4170894",
+        "Ponte Vedra Beach": "4169060"
+      },
+      "Georgia": {
+        "Atlanta": "4180439",
+        "Augusta": "4188962",
+        "Columbus": "4188985",
+        "Macon": "4207783",
+        "Savannah": "4221552",
+        "Athens": "4180386"
+      },
+      "South Carolina": {
+        "Charleston": "4574324",
+        "Columbia": "4575352",
+        "Greenville": "4580543",
+        "Myrtle Beach": "4588718"
+      }
+      // Add more states + top cities here
+    };
+
+    const stateSelect = document.getElementById("state");
+    const citySelect = document.getElementById("city");
+    const runBtn = document.getElementById("runBtn");
+    const terminal = document.getElementById("terminal");
+
+    // Populate state dropdown
+    window.addEventListener("DOMContentLoaded", () => {
+      Object.keys(cityData).forEach(state => {
+        const opt = document.createElement("option");
+        opt.value = state;
+        opt.textContent = state;
+        stateSelect.appendChild(opt);
+      });
+    });
+
+    // When state changes, populate city dropdown
+    stateSelect.addEventListener("change", () => {
+      const state = stateSelect.value;
+      citySelect.innerHTML = '<option value="">--Select City--</option>';
+      if (state) {
+        Object.keys(cityData[state]).forEach(city => {
+          const opt = document.createElement("option");
+          opt.value = city;
+          opt.textContent = city;
+          citySelect.appendChild(opt);
+        });
+        citySelect.disabled = false;
+        runBtn.disabled = true;
+      } else {
+        citySelect.disabled = true;
+        runBtn.disabled = true;
+      }
+    });
+
+    citySelect.addEventListener("change", () => {
+      runBtn.disabled = !citySelect.value;
+    });
+
+    async function runCode() {
+      const state = stateSelect.value;
+      const city = citySelect.value;
+      terminal.textContent = ""; // clear on each run
+      
+
+      if (!state || !city) {
+        terminal.textContent = "⚠ Please select a state and city first.";
+        return;
+      }
+
+      const cityId = cityData[state][city];
+      terminal.textContent += `Selected Location: ${city}, ${state}\n------------------------------------\n`;
+
+      try {
+        // Current weather
+        const currentRes = await fetch(
+          `https://api.openweathermap.org/data/2.5/weather?id=${cityId}&appid=${API_KEY}&units=imperial`
+        );
+        if (!currentRes.ok) throw new Error("Failed to fetch current weather");
+        const current = await currentRes.json();
+
+        terminal.textContent += `Current Weather: '${current.weather[0].description}' (ID: ${current.weather[0].id})\n`;
+        terminal.textContent += `Temperature: ${current.main.temp.toFixed(1)}°F | High: ${current.main.temp_max.toFixed(1)}°F | Low: ${current.main.temp_min.toFixed(1)}°F\n`;
+        terminal.textContent += `Humidity: ${current.main.humidity}%\n`;
+
+        if (current.weather[0].description.includes("rain")) {
+          terminal.textContent += `\nSprinkler Status: It is raining, sprinkler will NOT run today.\n`;
+        } else {
+          terminal.textContent += `\nSprinkler Status: No rain detected, sprinkler will run as scheduled.\n`;
+        }
+
+        // 5-day forecast (first 16 entries ~ 48h)
+        const forecastRes = await fetch(
+          `https://api.openweathermap.org/data/2.5/forecast?id=${cityId}&appid=${API_KEY}&units=imperial`
+        );
+        if (!forecastRes.ok) throw new Error("Failed to fetch forecast");
+        const forecast = await forecastRes.json();
+
+        terminal.textContent += `\nForecast (3-hour intervals):\n------------------------------------\n`;
+        forecast.list.slice(0, 16).forEach(entry => {
+          const time = new Date(entry.dt * 1000);
+          const dateStr = time.toLocaleString("en-US", {
+            weekday: "short",
+            hour: "numeric",
+            minute: "2-digit"
+          });
+          terminal.textContent += `${dateStr.padEnd(20)} | ${entry.weather[0].description.padEnd(15)} | ${entry.main.temp.toFixed(1)}°F\n`;
+        });
+
+      } catch (err) {
+        terminal.textContent += `\n❌ Error: ${err.message}`;
+      }
+      
+    }
+  </script>
+
+</body>
+</html>
