@@ -114,9 +114,10 @@
       box-shadow:0 8px 20px rgba(11,95,255,0.18);
     }
     footer{grid-column:1 / -1;text-align:center;color:var(--muted);font-size:13px;padding-top:8px;}
-    @media (max-width:900px){
+@media (max-width:900px){
   .container{
-    grid-template-columns:1fr;
+    display:flex;
+    flex-direction:column;
     padding:18px;
   }
   header{
@@ -125,11 +126,11 @@
     gap:8px;
   }
   aside{
-    order:2;
     margin-top:20px;
+    width:100%;
   }
   main{
-    order:1;
+    width:100%;
   }
 }
 
@@ -283,11 +284,11 @@
             <div class="dot"></div>
             <div>
               <strong>Job experience as a teacher at a STEM special education center</strong>
-              <div class="muted">ESP32-based smart controller concept</div>
+              <div class="muted">Taught programming and other STEM skills to kids ages 7 to 15</div>
               <p style="margin-top:6px">
-                Prototype concept for an easy-to-install device that connects to standard sprinkler control boxes and supports online scheduling & rain adjustments. Planned parts include an ESP32 dev board and simple relay/actuator interface for existing valves.
+                2 years working as a teacher teaching Javascript and C# at CodeNinjas
               </p>
-              <div class="tech">Tech: ESP32, web connectivity, relay control</div>
+              <div class="tech">Javascript, C#/div>
             </div>
           </div>
         </div>
