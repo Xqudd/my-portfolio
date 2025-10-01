@@ -115,10 +115,59 @@
     }
     footer{grid-column:1 / -1;text-align:center;color:var(--muted);font-size:13px;padding-top:8px;}
     @media (max-width:900px){
-      .container{grid-template-columns:1fr; padding:18px;}
-      aside{order:2;}
-      header{flex-direction:column;align-items:flex-start;gap:6px;}
-    }
+  .container{
+    grid-template-columns:1fr;
+    padding:18px;
+  }
+  header{
+    flex-direction:column;
+    align-items:flex-start;
+    gap:8px;
+  }
+  aside{
+    order:2;
+    margin-top:20px;
+  }
+  main{
+    order:1;
+  }
+}
+
+@media (max-width:600px){
+  body{
+    padding:16px;
+  }
+  h1{
+    font-size:18px;
+  }
+  h2{
+    font-size:15px;
+  }
+  p,.meta,.muted,.tech{
+    font-size:14px;
+    line-height:1.5;
+  }
+  .btn{
+    width:100%;
+    text-align:center;
+    font-size:14px;
+    padding:12px;
+  }
+  .skills{
+    gap:6px;
+  }
+  .skill{
+    font-size:12px;
+    padding:6px 8px;
+  }
+  .project{
+    flex-direction:column;
+  }
+  .project .dot{
+    margin-top:0;
+  }
+}
+
   </style>
 </head>
 <body>
