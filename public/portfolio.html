@@ -114,6 +114,14 @@
       box-shadow:0 8px 20px rgba(11,95,255,0.18);
     }
     footer{grid-column:1 / -1;text-align:center;color:var(--muted);font-size:13px;padding-top:8px;}
+    .container{
+  display:grid;
+  grid-template-columns: 320px 1fr;
+  gap:24px;
+  padding:28px;
+}
+
+/* Mobile */
 @media (max-width:900px){
   .container{
     display:flex;
@@ -125,25 +133,16 @@
     align-items:flex-start;
     gap:8px;
   }
-  aside{
-    margin-top:20px;
-    width:100%;
-  }
-  main{
+  aside, main{
     width:100%;
   }
 }
 
+/* Small phones */
 @media (max-width:600px){
-  body{
-    padding:16px;
-  }
-  h1{
-    font-size:18px;
-  }
-  h2{
-    font-size:15px;
-  }
+  body{padding:16px;}
+  h1{font-size:18px;}
+  h2{font-size:15px;}
   p,.meta,.muted,.tech{
     font-size:14px;
     line-height:1.5;
@@ -154,20 +153,15 @@
     font-size:14px;
     padding:12px;
   }
-  .skills{
-    gap:6px;
-  }
+  .skills{gap:6px;}
   .skill{
     font-size:12px;
     padding:6px 8px;
   }
-  .project{
-    flex-direction:column;
-  }
-  .project .dot{
-    margin-top:0;
-  }
+  .project{flex-direction:column;}
+  .project .dot{margin-top:0;}
 }
+
 
   </style>
 </head>
