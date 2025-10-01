@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Anden Hermam — Portfolio (UCF Fall Expo)</title>
+  <style>
+    :root{
+      --accent:#0b5fff;
+      --muted:#6b7280;
+      --bg:#0f1724;
+      --card:#0b1220;
+      --glass: rgba(255,255,255,0.03);
+      --radius:14px;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      color-scheme: dark;
+    }
+    html,body{height:100%;}
+    body{
+      margin:0;
+      background: linear-gradient(180deg,#071226 0%, #071529 60%);
+      color:#e6eef8;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      padding:32px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:24px;
+    }
+    .container{
+      width:100%;
+      max-width:980px;
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-radius:var(--radius);
+      box-shadow: 0 10px 30px rgba(2,6,23,0.6);
+      padding:28px;
+      display:grid;
+      grid-template-columns: 320px 1fr;
+      gap:24px;
+    }
+    header{
+      grid-column: 1 / -1;
+      display:flex;
+      align-items:center;
+      gap:18px;
+      border-bottom:1px solid rgba(255,255,255,0.03);
+      padding-bottom:18px;
+      margin-bottom:6px;
+    }
+    .avatar{
+      width:76px;
+      height:76px;
+      border-radius:12px;
+      background: linear-gradient(135deg,var(--accent),#22c1c3);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-weight:700;
+      font-size:26px;
+      color: #041024;
+      box-shadow:0 6px 20px rgba(11,95,255,0.12), inset 0 -6px 20px rgba(255,255,255,0.04);
+    }
+    h1{font-size:20px;margin:0;}
+    .sub{color:var(--muted);font-size:13px;margin-top:4px;}
+    aside{
+      background: linear-gradient(180deg, rgba(255,255,255,0.012), rgba(255,255,255,0.008));
+      border-radius:12px;
+      padding:18px;
+      height:fit-content;
+      min-height:320px;
+    }
+    .section-title{font-size:13px;color:var(--muted);margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;}
+    .pill{background:var(--glass);padding:6px 10px;border-radius:999px;font-size:12px;color:var(--muted);border:1px solid rgba(255,255,255,0.02);}
+    .meta{font-size:14px;color:#dbeaff;margin:8px 0 18px;}
+    .skills{display:flex;flex-wrap:wrap;gap:8px;}
+    .skill{background:rgba(255,255,255,0.03);padding:8px 10px;border-radius:10px;font-size:13px;border:1px solid rgba(255,255,255,0.02);}
+    main{
+      background: transparent;
+      padding:2px 6px;
+      display:flex;
+      flex-direction:column;
+      gap:16px;
+    }
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-radius:12px;
+      padding:16px;
+      border:1px solid rgba(255,255,255,0.03);
+      box-shadow: 0 6px 18px rgba(2,6,23,0.35);
+    }
+    .project{
+      display:flex;
+      gap:12px;
+      align-items:flex-start;
+    }
+    .project .dot{
+      width:10px;height:10px;border-radius:50%;background:var(--accent);margin-top:6px;flex-shrink:0;
+    }
+    h2{font-size:16px;margin:0 0 6px 0;}
+    p{margin:0;color:#dbeaff;line-height:1.45;}
+    .muted{color:var(--muted);font-size:13px;}
+    .tech{font-size:13px;margin-top:10px;color:var(--muted);}
+    .contact-list{display:flex;flex-direction:column;gap:8px;margin-top:8px;}
+    a.btn{
+      display:inline-block;
+      padding:10px 14px;
+      background:var(--accent);
+      color:#fff;
+      border-radius:10px;
+      text-decoration:none;
+      font-weight:600;
+      font-size:13px;
+      box-shadow:0 8px 20px rgba(11,95,255,0.18);
+    }
+    footer{grid-column:1 / -1;text-align:center;color:var(--muted);font-size:13px;padding-top:8px;}
+    @media (max-width:900px){
+      .container{grid-template-columns:1fr; padding:18px;}
+      aside{order:2;}
+      header{flex-direction:column;align-items:flex-start;gap:6px;}
+    }
+  </style>
+</head>
+<body>
+  <div class="container" role="main" aria-labelledby="name">
+    <header>
+      <div class="avatar" aria-hidden="true">AH</div>
+      <div>
+        <h1 id="name">Anden Hermam</h1>
+        <div class="sub">UCF Freshman — Fall 2025 · Seeking internships in tech</div>
+        <div class="muted" style="margin-top:8px">Open to internships, co-ops, and research opportunities — bring hardware + full-stack web experience</div>
+    </header>
+
+    <aside aria-label="contact and skills">
+      <div class="section-title">
+        <span>Contact</span>
+        <span class="muted">Shareable</span>
+      </div>
+      <div class="meta">
+        Name: <strong>Anden Hermam</strong><br>
+        Location: Oviedo, Florida<br>
+        Education: Freshman attending University of Central Florida — Fall 2025
+      </div>
+
+      <div class="section-title"><span>Quick links</span></div>
+      <div class="contact-list">
+        <!-- Replace the href placeholders with real links -->
+        <a class="btn" href="mailto:Anden.Herman@gmail.com">Email — Anden.Herman@gmail.com</a>
+        <a class="btn" href="https://github.com/Xqudd" style="background:#0a1016">GitHub</a>
+        <a class="btn" href="https://www.linkedin.com/in/anden-herman/" style="background:#0a1016">LinkedIn</a>
+        <a class="btn" href="/resume.pdf" style="background:#0a1016">PDF Resume</a>
+      </div>
+
+      <div style="height:16px"></div>
+
+      <div class="section-title"><span>Skills</span><span class="muted">technical</span></div>
+      <div class="skills" aria-hidden="false">
+        <div class="skill">Embedded C / Arduino</div>
+        <div class="skill">Microcontrollers: ATmega328P, CH340G, Arduino Nano</div>
+        <div class="skill">Electronics: breadboarding, transistors (2N3904/3906), diodes (1N4001)</div>
+        <div class="skill">PWM & signal modulation</div>
+        <div class="skill">Hardware prototyping (transformers, sensors, hall sensors)</div>
+        <div class="skill">Next.js / JavaScript / Web dev</div>
+        <div class="skill">ESP32 prototyping (IoT)</div>
+        <div class="skill">Mechanical: e-skate drivetrain integration</div>
+        <div class="skill">Problem solving & independent projects</div>
+      </div>
+
+      <div style="height:12px"></div>
+
+      <div class="section-title"><span>Tools</span></div>
+      <div class="muted tech">Arduino (Elegoo Uno, Nano), ESP32, Flipsky VX2 remote, ESCs, multimeter, breadboard + soldering basics</div>
+    </aside>
+
+    <main>
+      <section class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div>
+            <h2>About</h2>
+            <div class="muted">Student & maker who has a well rounded set of tech skills, from protyping electronics to programming frontend and backend systems.</div>
+          </div>
+          <div class="pill">UCF — Fall 2025</div>
+        </div>
+        <div style="height:10px"></div>
+        <p>
+          I'm preparing for internships relevant to programming (in C, C++, Javascript, Python, and more), or other tech skills.
+        </p>
+      </section>
+
+      <section class="card" aria-labelledby="projects">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <h2 id="projects">Selected Projects</h2>
+          <div class="muted">Concise highlights</div>
+        </div>
+
+        <div style="margin-top:12px;display:flex;flex-direction:column;gap:12px">
+          <div class="project">
+            <div class="dot" aria-hidden="true"></div>
+            <div>
+              <strong>precision audio/signal prototype</strong>
+              <div class="muted">Embedded electronics, analog + PWM signal design</div>
+              <p style="margin-top:6px">
+                Designed a circuit using an Elegoo Uno R3 / ATmega328P with discrete components (2N3904/3906 transistors, 1N4001 diodes), potentiometers for intensity & modulation, and a transformer output for ear-clip output. Implemented timer-controlled PWM signal modulation in firmware for adjustable waveforms.
+              </p>
+              <div class="tech">Tech: Arduino (ATmega328P), PWM, analog design, breadboard prototyping</div>
+            </div>
+          </div>
+
+          <div class="project">
+            <div class="dot"></div>
+            <div>
+              <strong>Custom electric skateboard — drivetrain & systems integration</strong>
+              <div class="muted">Mechanical + electrical integration</div>
+              <p style="margin-top:6px">
+                Reused Summerboard wheels & drivetrain; integrating two powered Summerboard wheels into a six-wheel setup. Planned battery: 10s3p P42A pack; remote: Flipsky VX2; ESC: MBoards components; handled mixed sensor availability (one wheel with hall sensor, one without).
+              </p>
+              <div class="tech">Tech: battery packs, ESCs, hall sensors, mechanical mounting</div>
+            </div>
+          </div>
+
+          <div class="project">
+            <div class="dot"></div>
+            <div>
+              <strong>Sprinkler control prototype (consumer IoT)</strong>
+              <div class="muted">ESP32-based smart controller concept</div>
+              <p style="margin-top:6px">
+                Prototype concept for an easy-to-install device that connects to standard sprinkler control boxes and supports online scheduling & rain adjustments. Planned parts include an ESP32 dev board and simple relay/actuator interface for existing valves.
+              </p>
+              <div class="tech">Tech: ESP32, web connectivity, relay control</div>
+            </div>
+          </div>
+
+          <div class="project">
+            <div class="dot"></div>
+            <div>
+              <strong>Job experience as a teacher at a STEM special education center</strong>
+              <div class="muted">ESP32-based smart controller concept</div>
+              <p style="margin-top:6px">
+                Prototype concept for an easy-to-install device that connects to standard sprinkler control boxes and supports online scheduling & rain adjustments. Planned parts include an ESP32 dev board and simple relay/actuator interface for existing valves.
+              </p>
+              <div class="tech">Tech: ESP32, web connectivity, relay control</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Education & Goals</h2>
+        <div class="muted" style="margin-top:8px">University of Central Florida — Attending Fall 2025; Computer Science</div>
+        <div style="height:10px"></div>
+        <p>
+          Short-term: secure an internship/co-op in a Tech field. Long-term: Continue working in the technology industry, hopefully eventually making a sustainable income through freelance programming
+        </p>
+      </section>
+
+      <section class="card">
+        <h2>Other highlights</h2>
+        <ul class="muted" style="margin-top:8px;margin-left:18px">
+          <li>Advid Runner, biker, and outdoorsman</li>
+          <li>Experienced travel planner: Have planned several trips, including a trip to japan and a Camping/Snowboarding trip in the North Carolina mountains — adaptable, independent traveler.</li>
+          <li>Teaching / tutoring background: Taught kids ages 8 to 15 stem skills at a specialty education center.</li>
+        </ul>
+      </section>
+
+      <section class="card" aria-label="closing and call to action">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:12px">
+          <div>
+            <h2>Interested in working together</h2>
+            <p class="muted" style="margin-top:6px">I'm actively pursuing internships and open to short-term projects. I'd like to find roles that involve both front end or back end development, firmware, etc.</p>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:8px;align-items:flex-end">
+            <a class="btn" href="mailto:Anden.Herman@gmail.com">Email me</a>
+            <a class="btn" href="/resume.pdf" style="background:#0a1016">Download resume</a>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>
