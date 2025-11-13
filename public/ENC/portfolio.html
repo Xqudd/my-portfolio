@@ -1,126 +1,395 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MLN Introduction</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      background: linear-gradient(to bottom right, #f8f9fa, #e9ecef);
-      text-align: center;
-      color: #212529;
-      padding: 2rem;
-    }
-    h1 {
-      font-size: 2.5rem;
-      margin: 0.5rem 0;
-    }
-    h2 {
-      font-weight: 400;
-      margin: 0.25rem 0;
-      font-size: 1.25rem;
-      color: #495057;
-    }
-    .intro-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.5rem;
-      transition: gap 0.6s ease;
-    }
-    .intro-container.expanded {
-      gap: 2rem; /* creates space dynamically when text appears */
-    }
-    p {
-      max-width: 600px;
-      opacity: 0;
-      transform: translateY(10px);
-      transition: opacity 1s ease, transform 1s ease;
-      font-size: 1.1rem;
-      line-height: 1.6;
-      margin: 0;
-      visibility: hidden; /* keeps it hidden until reveal */
-    }
-    p.visible {
-      opacity: 1;
-      transform: translateY(0);
-      visibility: visible;
-    }
-    .down-arrow {
-      font-size: 2rem;
-      cursor: pointer;
-      animation: bounce 1.5s infinite;
-      color: #343a40;
-      transition: opacity 0.3s ease;
-    }
-    .down-arrow.fade-out {
-      opacity: 0;
-      pointer-events: none;
-    }
-    @keyframes bounce {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(8px); }
-    }
-    .next-button {
-      margin-top: 2rem;
-      padding: 0.8rem 1.5rem;
-      font-size: 1rem;
-      background-color: #343a40;
-      color: #fff;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: background-color 0.3s ease, opacity 0.3s ease;
-      display: none;
-    }
-    .next-button:hover {
-      background-color: #495057;
-    }
-    .next-button.fade-out {
-      opacity: 0;
-      pointer-events: none;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ENC 1101 ePortfolio - Anden Herman</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Georgia, serif;
+            line-height: 1.6;
+            color: #333;
+        }
+        
+        /* Navigation */
+        nav {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+        
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: 500;
+            transition: opacity 0.3s;
+        }
+        
+        nav a:hover {
+            opacity: 0.8;
+        }
+
+
+        /* Hero Banner */
+        .hero-banner {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+            padding: 4rem 2rem;
+        }
+        
+        .hero-banner h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            border: 4px solid white;
+            padding: 2rem;
+            display: inline-block;
+        }
+        
+        .hero-banner p {
+            font-size: 1.3rem;
+            font-style: italic;
+        }
+        
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        section {
+            margin: 3rem 0;
+        }
+        
+        h2 {
+            font-size: 2.5rem;
+            color: #667eea;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        
+        h3 {
+            font-size: 1.8rem;
+            color: #764ba2;
+            margin: 2rem 0 1rem;
+        }
+
+
+        /* Document Viewer - KEY FEATURE */
+        .document-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .document-card {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .document-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+        
+        .doc-embed {
+            width: 100%;
+            height: 600px;
+            border: none;
+            border-radius: 4px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+        
+        /* Intro Section */
+        .intro-section {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+            align-items: start;
+            margin: 2rem 0;
+        }
+        
+        .intro-text {
+            font-size: 1.1rem;
+        }
+        
+        .intro-image {
+            width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+
+        /* Learning Outcomes List */
+        .outcomes-list {
+            background: #f8f9fa;
+            padding: 2rem;
+            border-radius: 8px;
+            margin: 2rem 0;
+        }
+        
+        .outcomes-list ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .outcomes-list li {
+            padding: 0.8rem;
+            margin: 0.5rem 0;
+            background: white;
+            border-left: 4px solid #667eea;
+            border-radius: 4px;
+        }
+        
+        /* Cover Letter */
+        .cover-letter {
+            background: white;
+            padding: 3rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            max-width: 800px;
+            margin: 2rem auto;
+        }
+        
+        /* Footer */
+        footer {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 4rem;
+        }
+        
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .hero-banner h1 { font-size: 2rem; }
+            .intro-section { grid-template-columns: 1fr; }
+            .document-grid { grid-template-columns: 1fr; }
+            nav ul { flex-direction: column; gap: 1rem; }
+        }
+    </style>
 </head>
+
 <body>
-  <h1 id="essay-title">ENC1101 Eportfolio</h1>
-  <h2 id="essay-author">Anden Herman</h2>
+    <!-- Navigation -->
+    <nav>
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#Writing-Processes-&-Adaptation">Writing Processes & Adaptation</a></li>
+            <li><a href="#Multiple-Literacies-&-Goal-Setting">Multiple Literacies & Goal Setting</a></li>
+            <li><a href="#Variation-across-Contexts">Variation across Contexts</a></li>
+            <li><a href="#Decision-Making-&-Production">Decision Making & Production</a></li>
+            <li><a href="#Writing-and-Power">Writing and Power</a></li>
+            <li><a href="#Revision">Revision</a></li>
+        </ul>
+    </nav>
 
-  <div class="intro-container" id="intro-container">
-    <p id="intro-text">
-        Click the button below to continue to my Eportfolio
-    </p>
-    <div class="down-arrow" id="reveal-arrow" onclick="revealIntro()">&#x25BC;</div>
-  </div>
+    <!-- Hero Banner -->
+    <div class="hero-banner">
+        <h1>Anden Herman</h1>
+        <p>ENC 1101 ePortfolio - Fall 2024</p>
+    </div>
 
-  <button class="next-button" onclick="fadeAndGo()">Continue</button>
+    <!-- Main Content -->
+    <div class="container">
+        
+        <!-- Home Section -->
+        <section id="home">
+            <h2>Hi, I'm Anden Herman.</h2>
+            
+            <div class="intro-section">
+                <div class="intro-text">
+                    <p>I'm a student at UCF taking ENC 1101. Throughout this portfolio, I hope to demonstrate how I have achieved the 6 course learning outcomes. </p>
+                    <p></p>
+                </div>
+                <div>
+                    <img src="your-photo-url-here.jpg" alt="Student Photo" class="intro-image">
+                </div>
+            </div>
+            
+            <!-- Cover Letter -->
+            <div class="cover-letter">
+                <h3>Cover Letter</h3>
+            <div class="document-card">
+                
 
-  <script>
-    function revealIntro() {
-      const container = document.getElementById('intro-container');
-      const introText = document.getElementById('intro-text');
-      introText.classList.add('visible');
-      container.classList.add('expanded');
-      document.querySelector('.next-button').style.display = 'inline-block';
-      const arrow = document.getElementById('reveal-arrow');
-      arrow.classList.add('fade-out');
-      setTimeout(() => arrow.style.display = 'none', 300);
-    }
+                <iframe class="doc-embed" src="https://docs.google.com/document/d/1hX7mcI2EAZ4FP7EoiF3-1cOUtMQvhXl-nj0vxaMOriI/preview"></iframe>
+            </div>    
+            </div>
+        </section>
+        
+        <!-- Learning Outcomes -->
+        <section id="outcomes">
+            <h2>Learning Outcomes</h2>
+            <div class="outcomes-list">
+                <ul>
+                    <li><strong>Writing Processes & Adaptation:</strong> Students will be able to describe and reflect on writing processes in order to flexibly adapt them to support their goals.</li>
+                    <li><strong>Multiple Literacies & Goal Setting:</strong> Students will be able to demonstrate how they marshal/leverage their multiple literacies (e.g., speaking, listening, reading, multilingual writing, translating, multimodality, etc.) to support their writing processes.</li>
+                    <li><strong>Variation across Contexts:</strong> Students will be able to identify, analyze, and reflect on variation in rhetorical and linguistic patterns, including their own, from a range of contexts (e.g., cultural, digital, workplace, and/or academic).</li>
+                    <li><strong>Decision Making & Production:</strong> Students will be able to adapt their writing to various audiences, purposes, and contexts.</li>
+                    <li><strong>Writing and Power:</strong> Students will be able to critically examine and act on the relationship among identity, literacy, language, and power.</li>
+                    <li><strong>Revision:</strong> Students will be able to negotiate differences in and act with intention on feedback from readers when drafting, revising, and editing their writing.</li>
+                </ul>
+            </div>
+        </section>
+        
+        <!-- 1 -->
+        <section id="Writing-Processes-&-Adaptation">
+            <h2>Writing Processes & Adaptation</h2>
+            <p><em>Students will be able to describe and reflect on writing processes in order to flexibly adapt them to support their goals.</em></p>
+            <div class="document-grid">
+            <div class="document-card">
+                    <div class="document-title">Working Log 2</div>
+                    <iframe class="doc-embed" src="https://docs.google.com/document/d/1mTWUNwgw0gEJJL_eB2qiSJj5VZyxeYo2/preview"></iframe>
+                </div>
+                <div class="document-card">
+                <div class="document-title">Working Log 3</div>
+                    <iframe class="doc-embed" src="https://docs.google.com/document/d/1celuQZzWIr2f4cEafhzfffTFaXvY52Hg/preview"></iframe>
+                
+                </div>
+                
+            </div>
+        </section>
+        
+        <!-- 2 -->
+        <section id="Multiple-Literacies-&-Goal-Setting">
+            <h2>Multiple Literacies & Goal Setting</h2>
+            <p><em>Students will be able to demonstrate how they marshal/leverage their multiple literacies (e.g., speaking, listening, reading, multilingual writing, translating, multimodality, etc.) to support their writing processes</em></p>
+            <div class="document-grid">
+            <div class="document-card">
+                <div class="document-title">UWC visit notes</div>
 
-    function fadeAndGo() {
-      const button = document.querySelector('.next-button');
-      button.classList.add('fade-out');
-      setTimeout(() => {
-        window.location.href = 'main.html';
-      }, 300);
-    }
-  </script>
+                <iframe class="doc-embed" src="https://docs.google.com/document/d/12JLRL7hYiAZhxTUHFyCX5tsK3ZyOM5gBXDc-0Bq0uK4/preview"></iframe>
+            </div>
+
+            <div class="document-card">
+                <div class="document-title">MLN outline</div>
+
+                <iframe class="doc-embed" src="https://docs.google.com/document/d/1BBRbAE_OrVn3ZlFWVQSQgEI1ViIgTZdn/preview"></iframe>
+            </div>
+
+            <div class="document-card">
+                <div class="document-title">ENC portfolio webpage html</div>
+
+                <iframe class="doc-embed" src="https://docs.google.com/document/d/1SFtN6DETTAXhgqAdm5YMXQn_y5BaSXkyEP3atqpqj4g/preview"></iframe>
+            </div>
+
+            <div class="document-card">
+                <a href="https://www.andenwebsite.com/MLN/MLNbody.html" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">
+                    <button type="button">MLN Website</button>
+                </a>
+
+            </div>
+            </div>
+        </section>
+        
+        <!-- 3 -->
+        <section id="Variation-across-Contexts">
+            <h2>Variation across Contexts</h2>
+            <p><em>Students will be able to identify, analyze, and reflect on variation in rhetorical and linguistic patterns, including their own, from a range of contexts (e.g., cultural, digital, workplace, and/or academic).</em></p>
+            <div class="document-grid">
+            <div class="document-card">
+                <div class="document-title">Genre Analysis & Creation assignment </div>
+
+                <iframe class="doc-embed" src="https://docs.google.com/document/d/1roy52SNjqQHpbDo0pM97fx7MXs_4WH__/preview"></iframe>
+            </div>
+            <div class="document-card">
+                    <div class="document-title">MLN text</div>
+                    <iframe class="doc-embed" src="https://docs.google.com/document/d/1-OrD1RMua-5KcTWwbqe32hibdoSISuGT/preview"></iframe>
+                </div>
+            <div class="document-card">
+                <a href="https://www.andenwebsite.com/MLN/MLNbody.html" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">
+                    <button type="button">MLN Website</button>
+                </a>
+            </div>
+            </div>
+        </section>
+        
+        <!-- 4 -->
+        <section id="Decision-Making-&-Production">
+            <h2>Decision Making & Production</h2>
+            <p><em>Students will be able to produce writing that demonstrates their ability to navigate choices and constraints when writing for specific audiences, genres, and purposes.</em></p>
+            
+            <div class="document-grid">
+               <div class="document-card">
+                    <div class="document-title">Quick Write 9-17</div>
+                    <iframe class="doc-embed" src="https://docs.google.com/document/d/11uBYG5h6pHiHkV_ZcBV5KkP1qFL98HsXndhJWl9zSi8/preview"></iframe>
+                </div>
+                <div class="document-card">
+                    <div class="document-title">MLN text</div>
+                    <iframe class="doc-embed" src="https://docs.google.com/document/d/1-OrD1RMua-5KcTWwbqe32hibdoSISuGT/preview"></iframe>
+                </div>
+
+                
+            </div>
+        </section>
+
+        <!-- 5 -->
+        <section id="Writing-and-Power">
+            <h2>Writing and Power</h2>
+            <p><em> Students will be able to critically examine and act on the relationship among identity, literacy, language, and power.</em></p>
+            
+            <div class="document-grid">
+                <div class="document-card">
+                    <div class="document-title">MLN text</div>
+                    <iframe class="doc-embed" src="https://docs.google.com/document/d/1-OrD1RMua-5KcTWwbqe32hibdoSISuGT/preview"></iframe>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 6 Done -->
+        <section id="Revision">
+            <h2>Revision</h2>
+            <p><em> Students will be able to negotiate differences in and act with intention on feedback from readers when drafting, revising, and editing their writing.</em></p>
+            
+            <h3>Before & After: MLN Essay Revision</h3>
+            <div class="document-grid">
+
+                <div class="document-card">
+                    <div class="document-title">Original Draft</div>
+                    <iframe class="doc-embed" src="https://docs.google.com/document/d/1_bD8xV9kR-NNjE9dT1Lv2nLS-ocLskaw/preview"></iframe>
+                </div>
+                <div class="document-card">
+                    <div class="document-title">Revised Draft with Professor Feedback</div>
+                    <iframe class="doc-embed" src="https://docs.google.com/document/d/1-OrD1RMua-5KcTWwbqe32hibdoSISuGT/preview"></iframe>
+                </div>
+            </div>
+            
+            
+        </section>
+
+    </div>
+    
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 Herman | ENC 1101 ePortfolio | UCF</p>
+        <p>Created for Professor Melissa Pompos Mansfield's ENC 1101 Class</p>
+    </footer>
+    
 </body>
 </html>
