@@ -296,7 +296,7 @@ function renderCurrentQuestion() {
   const item = data[qIdx];
 
   qText.textContent = item.q;
-  qNumber.textContent = `Question ${qIdx+1} of ${data.length}`;
+  qNumber.textContent = `Question ${orderPos+1} of ${data.length}`;
   feedback.textContent = "";
   nextBtn.disabled = true;
 
