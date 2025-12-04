@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Study thing</title>
+<title>PDF Quiz — one question at a time</title>
 <style>
   :root{
     --bg:#0f1724;
@@ -110,9 +110,10 @@
   <div class="card" role="application" aria-label="PDF Quiz">
     <header>
       <div>
-        <h1>Philosphy study</h1>
-        </div>
+        <h1>Philosphy study quiz</h1>
+      </div>
       <div style="text-align:right">
+        <div class="badge">Source: Alex's quesiton PDF</div>
         <div style="height:6px"></div>
         <div class="small">Questions: <span id="totalCount">0</span></div>
       </div>
@@ -130,6 +131,11 @@
             <button id="nextBtn" class="btn" disabled>Next →</button>
             <button id="shuffleBtn" class="btn secondary">Shuffle Order</button>
           </div>
+        </div>
+
+        <div class="footer">
+          <div class="debug" id="feedback"></div>
+          <div class="small">Good luck! <span class="kbd">answers</span> array.</div>
         </div>
       </div>
     </main>
