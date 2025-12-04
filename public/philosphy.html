@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>PDF Quiz — one question at a time</title>
+<title>Philosphy study Quiz</title>
 <style>
   :root{
     --bg:#0f1724;
@@ -98,7 +98,7 @@
   .debug{ color:var(--muted); font-size:12px; }
   .badge{ font-size:12px; background:rgba(255,255,255,0.02); padding:8px;border-radius:8px; border:1px solid rgba(255,255,255,0.02); }
   .kbd{ font-family:monospace; padding:6px 8px; background:#071226; border-radius:6px; border:1px solid rgba(255,255,255,0.02); color:var(--muted); font-size:12px; }
-  /* responsive */
+
   @media (max-width:520px){
     .card{ padding:16px;}
     .question{ font-size:16px;}
@@ -113,7 +113,7 @@
         <h1>Philosphy study quiz</h1>
       </div>
       <div style="text-align:right">
-        <div class="badge">Source: Alex's quesiton PDF</div>
+        <div class="badge">Score: <span id="scoreBox">0%, 0/0</span></div>
         <div style="height:6px"></div>
         <div class="small">Questions: <span id="totalCount">0</span></div>
       </div>
@@ -135,7 +135,7 @@
 
         <div class="footer">
           <div class="debug" id="feedback"></div>
-          <div class="small">Good luck! <span class="kbd"></span></div>
+          <div class="small">Good luck!</div>
         </div>
       </div>
     </main>
@@ -247,7 +247,20 @@ const answers = [
   2  //45 C
 ];
 
-// Shuffle helper
+let order = [];
+let orderPos = 0;
+
+let correctCount = 0;
+let answeredCount = 0;
+
+/* Score Display */
+const scoreBox = document.getElementById("scoreBox");
+function updateScore() {
+  const pct = answeredCount === 0 ? 0 : Math.round((correctCount / answeredCount) * 100);
+  scoreBox.textContent = `${pct}%, ${correctCount}/${answeredCount}`;
+}
+
+/* Shuffle helper */
 function shuffleArray(a){
   for(let i=a.length-1;i>0;i--){
     const j = Math.floor(Math.random()*(i+1));
@@ -255,11 +268,18 @@ function shuffleArray(a){
   }
 }
 
-// UI state
-let order = data.map((_,i)=>i);
-let currentIndex = null; // index in order array (not original question number)
-let locked = false;
+/* Reset for new cycle */
+function resetQuizCycle() {
+  order = data.map((_,i)=>i);
+  shuffleArray(order);
+  orderPos = 0;
 
+  correctCount = 0;
+  answeredCount = 0;
+  updateScore();
+}
+
+/* UI Elements */
 const qText = document.getElementById('questionText');
 const choicesBox = document.getElementById('choices');
 const qNumber = document.getElementById('qNumber');
@@ -270,90 +290,75 @@ const totalCount = document.getElementById('totalCount');
 
 totalCount.textContent = data.length;
 
-function renderQuestionByOrderPos(pos){
-  locked = false;
-  nextBtn.disabled = true;
-  feedback.textContent = '';
-  const idx = order[pos];
-  currentIndex = pos;
-  const item = data[idx];
+/* Render question */
+function renderCurrentQuestion() {
+  const qIdx = order[orderPos];
+  const item = data[qIdx];
+
   qText.textContent = item.q;
-  qNumber.textContent = `Question ${idx+1} of ${data.length}`;
-  choicesBox.innerHTML = '';
-  item.choices.forEach((ch, i) => {
-    const el = document.createElement('button');
-    el.className = 'choice';
-    el.setAttribute('data-choice', i);
-    el.setAttribute('data-q', idx);
-    el.innerHTML = `<div class="letter">${String.fromCharCode(65+i)}</div><div style="flex:1;text-align:left">${ch.replace(/^[A-D]\)\s*/,'')}</div>`;
-    el.addEventListener('click', onChoose);
-    choicesBox.appendChild(el);
+  qNumber.textContent = `Question ${qIdx+1} of ${data.length}`;
+  feedback.textContent = "";
+  nextBtn.disabled = true;
+
+  choicesBox.innerHTML = "";
+  item.choices.forEach((txt,i)=>{
+    const btn = document.createElement("button");
+    btn.className = "choice";
+    btn.dataset.choice = i;
+    btn.dataset.q = qIdx;
+    btn.innerHTML =
+      `<div class="letter">${String.fromCharCode(65+i)}</div>
+       <div style="flex:1;text-align:left">${txt.replace(/^[A-D]\)\s*/, '')}</div>`;
+    btn.addEventListener("click", onChoose);
+    choicesBox.appendChild(btn);
   });
 }
 
 function onChoose(e){
-  if(locked) return;
-  locked = true;
   const btn = e.currentTarget;
-  const chosen = parseInt(btn.getAttribute('data-choice'),10);
-  const qidx = parseInt(btn.getAttribute('data-q'),10);
-  const correct = (typeof answers[qidx] === 'number') ? answers[qidx] : null;
+  const chosen = Number(btn.dataset.choice);
+  const qIdx = Number(btn.dataset.q);
+  const correct = answers[qIdx];
 
-  // disable all choices
-  [...choicesBox.children].forEach(c => c.classList.add('disabled'), c => {});
-  // mark chosen
-  if(correct === null){
-    // No stored answer: mark chosen yellowish and also show a small cue and let user mark it correct
-    btn.classList.add('wrong');
-    feedback.innerHTML = 'No stored correct answer for this question. You can set the correct answer by editing the <code>answers</code> array in the file.';
+  [...choicesBox.children].forEach(c => c.classList.add("disabled"));
+
+  answeredCount++;
+
+  if(chosen === correct){
+    btn.classList.add("correct");
+    correctCount++;
+    feedback.textContent = "Correct ✓";
   } else {
-    if(chosen === correct){
-      btn.classList.add('correct');
-      feedback.innerHTML = 'Correct ✓';
-    } else {
-      btn.classList.add('wrong');
-      // highlight correct choice
-      const correctBtn = [...choicesBox.children].find(c => parseInt(c.getAttribute('data-choice'),10)===correct);
-      if(correctBtn) correctBtn.classList.add('correct');
-      feedback.innerHTML = 'Wrong ✗ — the correct answer is highlighted.';
-    }
+    btn.classList.add("wrong");
+    const correctBtn = [...choicesBox.children].find(
+      c => Number(c.dataset.choice) === correct
+    );
+    if(correctBtn) correctBtn.classList.add("correct");
+    feedback.textContent = "Wrong ✗";
   }
 
+  updateScore();
   nextBtn.disabled = false;
 }
 
-function nextRandom(){
-  if(data.length===0) return;
-  // pick random position in order (not same as current if possible)
-  if(order.length===1){
-    renderQuestionByOrderPos(0);
-    return;
+nextBtn.addEventListener("click", ()=>{
+  orderPos++;
+
+  if(orderPos >= order.length){
+    resetQuizCycle();
   }
-  let pos;
-  do{
-    pos = Math.floor(Math.random()*order.length);
-  }while(pos===currentIndex && order.length>1);
-  renderQuestionByOrderPos(pos);
-}
 
-nextBtn.addEventListener('click', () => {
-  nextRandom();
+  renderCurrentQuestion();
 });
 
-shuffleBtn.addEventListener('click', () => {
-  shuffleArray(order);
-  renderQuestionByOrderPos(0);
+shuffleBtn.addEventListener("click", ()=>{
+  resetQuizCycle();
+  renderCurrentQuestion();
 });
 
-
-// initial shuffle & render
-shuffleArray(order);
-renderQuestionByOrderPos(0);
-
-// Accessibility: space/enter answer selection
-document.addEventListener('keydown', (ev) => {
-  if(ev.key === 'n' || ev.key === 'N') nextBtn.click();
-});
+/* START */
+resetQuizCycle();
+renderCurrentQuestion();
 </script>
 
 </body>
