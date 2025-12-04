@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>PDF Quiz — one question at a time</title>
+<title>Study thing</title>
 <style>
   :root{
     --bg:#0f1724;
@@ -110,11 +110,9 @@
   <div class="card" role="application" aria-label="PDF Quiz">
     <header>
       <div>
-        <h1>One-question-at-a-time — PDF Quiz</h1>
-        <p class="lead">Questions loaded from your PDF. Click an answer to get immediate feedback, then press <strong>Next</strong>.</p>
-      </div>
+        <h1>Philosphy study</h1>
+        </div>
       <div style="text-align:right">
-        <div class="badge">Source: uploaded PDF</div>
         <div style="height:6px"></div>
         <div class="small">Questions: <span id="totalCount">0</span></div>
       </div>
@@ -133,11 +131,6 @@
             <button id="shuffleBtn" class="btn secondary">Shuffle Order</button>
           </div>
         </div>
-
-        <div class="footer">
-          <div class="debug" id="feedback"></div>
-          <div class="small">Tip: you can edit correct answers in the file's <span class="kbd">answers</span> array.</div>
-        </div>
       </div>
     </main>
   </div>
@@ -152,51 +145,51 @@
   If you prefer to clear all known answers and mark them yourself, set the index to null.
 */
 const data = [
-  { q: "1. What is CR1 of The Consequence Argument?", choices:["A) Fatalism is true (assume).","B) Indeterminism is true (assume).","C) Determinism is true (assume).","D) Compatibilism is true (assume)."]},
-  { q: "2. What is CR2 of The Consequence Argument?", choices:["A) DINO is a second-order volition.","B) CLASS is an untouchable fact.","C) DINO is an untouchable fact.","D) DINO is a natural but unnecessary desire."]},
-  { q: "3. What is CR3 of The Consequence Argument?", choices:["A) If determinism is true, then CLASS is morally virtuous.","B) It is an untouchable fact that if DINO, then CLASS.","C) It is an untouchable fact that if CLASS, then DINO.","D) If indeterminism is true, then CLASS is chance."]},
-  { q: "4. What is CR4 of The Consequence Argument?", choices:["A) Therefore, being dead won’t be bad for me. (from C2, C3)","B) Therefore, indeterminism is true. (from C2, C3)","C) Therefore, I could have done otherwise. (from C2, C3)","D) Therefore, it’s an untouchable fact that I am in PHI class on 11/6/2025. (from C2, C3)"]},
-  { q: "5. What is CR5 of The Consequence Argument?", choices:["A) Therefore, if determinism is true, death is bad. (from C1, C4)","B) Therefore, if determinism is true, we are responsible for our choices. (from C1, C4)","C) Therefore, if determinism is false, then I’m in PHI class on 11/6/2025. (from C1, C4)","D) Therefore, if determinism is true, then it is an untouchable fact that I’m in PHI class on 11/6/2025. (from C1, C4)"]},
-  { q: "6. What is AC1 of The Argument from Chance?", choices:["A) If determinism is true, then we are always free.","B) If indeterminism is true, then our choices are a matter of chance.","C) If determinism is true, then our choices are a matter of chance.","D) If indeterminism is true, then we are always free."]},
-  { q: "7. What is AC2 of The Argument from Chance?", choices:["A) We control everything that occurs as a matter of chance.","B) We control only second-order desires.","C) We don’t control what occurs as a matter of chance.","D) We don’t control untouchable facts."]},
-  { q: "8. What is AC3 of The Argument from Chance?", choices:["A) We are responsible for everything we can’t control.","B) We aren’t responsible for the things we can’t control.","C) We are responsible for untouchable facts.","D) We aren’t responsible for what is morally virtuous."]},
-  { q: "9. What is AC4 of The Argument from Chance?", choices:["A) Therefore, if determinism is false, then we are responsible for our choices.","B) Therefore, if indeterminism is true, then we aren’t responsible for our choices.","C) Therefore, if determinism is true, then we aren’t responsible for our choices.","D) Therefore, if indeterminism is true, then we are responsible for our choices."]},
-  { q: "10. What is BC1 of The Bad Consequences Argument?", choices:["A) Belief in libertarianism has bad consequences.","B) Belief in determinism has no consequences.","C) Belief in hard incompatibilism has bad consequences.","D) Belief in hedonism has bad consequences."]},
-  { q: "11. What is BC2 of The Bad Consequences Argument?", choices:["A) We should hold any belief that feels good.","B) We should never punish criminals.","C) We should not hold beliefs that have bad consequences.","D) We should only hold beliefs we can control."]},
-  { q: "12. What is BC3 of The Bad Consequences Argument?", choices:["A) Therefore, determinism is false.","B) Therefore, death is bad.","C) Therefore, we should not believe hard incompatibilism.","D) Therefore, hard incompatibilism is true."]},
-  { q: "13. What is NB1 of The Death Is Not Bad Argument?", choices:["A) Something is bad for me if it’s untouchable.","B) Something can be bad for me only if I can experience it.","C) Something is bad for me if it’s painful to others.","D) Something can be bad for me only if I desire it."]},
-  { q: "14. What is NB2 of The Death Is Not Bad Argument?", choices:["A) I always exist necessarily.","B) I can experience being dead.","C) I can’t experience being dead.","D) I won’t exist when I sleep."]},
-  { q: "15. What is NB3 of The Death Is Not Bad Argument?", choices:["A) Therefore, pleasure is the only good.","B) Therefore, being dead will be the worst thing for me.","C) Therefore, being dead won’t be bad for me.","D) Therefore, virtue is the only good."]},
-  { q: "16. What is FA1 of Aristotle’s Function Argument?", choices:["A) The good human life is being biologically alive.","B) The good human life is whatever society approves of.","C) The good human life is one that excellently fulfills the characteristic human function.","D) The good human life is one of maximal net pleasure."]},
-  { q: "17. What is FA2 of Aristotle’s Function Argument?", choices:["A) The characteristic human function is sense-perception.","B) The characteristic human function is action involving reason.","C) The characteristic human function is random choice.","D) The characteristic human function is pleasure-seeking."]},
-  { q: "18. What is FA3 of Aristotle’s Function Argument?", choices:["A) Therefore, the good life is a life without action.","B) Therefore, the good life is a life of chance.","C) Therefore, the good life is a life of excellent action involving reason.","D) Therefore, the good life is a life of vain desire."]},
-  { q: "19. What is FA4 of Aristotle’s Function Argument?", choices:["A) The life of pleasure is a morally virtuous life.","B) The life of indeterminism is a morally virtuous life.","C) The life of excellent action involving reason is a morally virtuous life.","D) The life of sense-perception is a morally virtuous life."]},
-  { q: "20. What is FA5 of Aristotle’s Function Argument?", choices:["A) Therefore, the good life is a life of fatalism.","B) Therefore, the good life is a life of moral virtue.","C) Therefore, the good life is a life of maximal net pleasure.","D) Therefore, the good life is a life of untouchable facts."]},
-  { q: "21. What is the Desire Theory (of freedom)?", choices:["A) Freedom requires indeterminism.","B) Freedom is acting on whatever desire you have.","C) Freedom is living virtuously.","D) Freedom is the power to act on the desire you want to act on."]},
-  { q: "22. What is a first-order desire?", choices:["A) A desire for a first-order desire to be your will.","B) A desire about a first-order desire.","C) A desire to act in a particular way.","D) A desire to maximize net pleasure."]},
-  { q: "23. What is a second-order desire?", choices:["A) A desire to act in a particular way.","B) A desire about a first-order desire.","C) A desire for pain avoidance.","D) A desire that is always morally good."]},
-  { q: "24. What is a second-order volition?", choices:["A) A desire about a second-order desire.","B) A desire to act in a particular way.","C) A desire that is vain.","D) A desire for a first-order desire to be your will."]},
-  { q: "25. What is Frankfurt’s Higher-Order Desire Theory?", choices:["A) A person is free only if determinism is false.","B) A person is free when their will is controlled by their second-order volition.","C) A person is free only if they never act on desire.","D) A person is free only if they maximize pleasure."]},
-  { q: "26. What is the Sane Deep Self Theory?", choices:["A) A person is free when they feel pleasure.","B) A person is free when (i) their deep self controls their will and (ii) they are sane.","C) A person is free when they do what society approves of.","D) A person is free when they can time-travel."]},
-  { q: "27. What is an untouchable fact?", choices:["A) Any moral rule.","B) Any fact about desires.","C) A fact no human has ever had the power to change.","D) Any future fact."]},
-  { q: "28. What is the Untouchability Principle?", choices:["A) If q is untouchable then p is untouchable.","B) Only laws of nature are untouchable.","C) If p is untouchable and it’s untouchable that if p then q, then q is untouchable.","D) If p is untouchable then not-p is untouchable."]},
-  { q: "29. What is determinism?", choices:["A) Choices are random.","B) Everything happens necessarily.","C) Past state of the world + laws of nature entail every future state.","D) The future is open in many ways."]},
-  { q: "30. What is fatalism?", choices:["A) Pleasure is the only good.","B) Past state + laws entail the future.","C) Only one possible sequence of events; everything happens necessarily.","D) Freedom is compatible with determinism."]},
-  { q: "31. What is the Ability To Do Otherwise (AO) condition?", choices:["A) A person acts freely only if they could have acted differently.","B) A person acts freely only if they desire it.","C) A person acts freely only if determinism is false.","D) A person acts freely only if they act virtuously."]},
-  { q: "32. What is compatibilism?", choices:["A) Free will requires fatalism.","B) Free will is compatible with determinism.","C) We never have free will.","D) Free will is incompatible with determinism."]},
-  { q: "33. What is incompatibilism?", choices:["A) Freedom equals virtue.","B) Freedom equals pleasure.","C) Free will is incompatible with determinism.","D) Free will is compatible with determinism."]},
-  { q: "34. What is libertarian incompatibilism?", choices:["A) Compatibilism is true and we have free will.","B) Incompatibilism is true and we have free will.","C) Indeterminism is true and we have no free will.","D) Determinism is true and we have no free will."]},
-  { q: "35. What is hard incompatibilism?", choices:["A) Fatalism is true and we have free will.","B) Compatibilism is true and we don’t have free will.","C) Incompatibilism is true and we don’t have free will (either way).","D) Determinism is false and we have free will."]},
-  { q: "36. What is the retributivist theory of punishment?", choices:["A) Punishment is never justified.","B) Punishment is justified because criminals deserve it.","C) Punishment is justified only to maximize pleasure.","D) Punishment is justified only to quarantine."]},
-  { q: "37. What is the contagion theory of punishment?", choices:["A) Punishment is justified only for revenge.","B) Punishment is justified because criminals deserve it.","C) Punishment is justified like quarantine to prevent further harm.","D) Punishment is justified only if determinism is false."]},
-  { q: "38. What is the hedonistic theory of value?", choices:["A) Desire-satisfaction is the only intrinsic good.","B) Pleasure is the only intrinsic good; pain the only intrinsic bad.","C) Knowledge is the only intrinsic good.","D) Virtue is the only intrinsic good."]},
-  { q: "39. What is hedonism (about the good life)?", choices:["A) The best life is being dead.","B) The best life is whatever society approves.","C) The best life is one of maximal net pleasure.","D) The best life is moral virtue."]},
-  { q: "40. What is net pleasure in a life?", choices:["A) Pain minus pleasure.","B) Pleasure without any pain ever.","C) Pleasure caused only by virtue.","D) Total pleasure minus total pain in that life."]},
-  { q: "41. What is Nozick’s experience machine?", choices:["A) A machine that makes you virtuous.","B) A machine that eliminates desires.","C) A machine that can give you any experiences you want.","D) A machine that proves determinism."]},
-  { q: "42. What is a final end (Aristotle)?", choices:["A) Anything society values.","B) A goal pursued only for something else.","C) Something desired for its own sake and not for anything further.","D) Anything that produces pleasure."]},
-  { q: "43. What is the Virtue Theory of the good life?", choices:["A) The good life is satisfying vain desires.","B) The good life is a morally virtuous life.","C) The good life is maximal net pleasure.","D) The good life is acting randomly."]},
-  { q: "44. What is moral virtue (Aristotle)?", choices:["A) Maximizing pleasure.","B) A habit to have right feelings and act according to them.","C) Eliminating all desires.","D) A one-off good action."]},
-  { q: "45. What is function-dependence (FD)?", choices:["A) Goodness is untouchable facts.","B) Goodness is only pleasure.","C) What makes something a good K depends on the characteristic function of K.","D) Goodness is only cultural approval."]}
+  { q: " What is CR1 of The Consequence Argument?", choices:["A) Fatalism is true (assume).","B) Indeterminism is true (assume).","C) Determinism is true (assume).","D) Compatibilism is true (assume)."]},
+  { q: " What is CR2 of The Consequence Argument?", choices:["A) DINO is a second-order volition.","B) CLASS is an untouchable fact.","C) DINO is an untouchable fact.","D) DINO is a natural but unnecessary desire."]},
+  { q: " What is CR3 of The Consequence Argument?", choices:["A) If determinism is true, then CLASS is morally virtuous.","B) It is an untouchable fact that if DINO, then CLASS.","C) It is an untouchable fact that if CLASS, then DINO.","D) If indeterminism is true, then CLASS is chance."]},
+  { q: " What is CR4 of The Consequence Argument?", choices:["A) Therefore, being dead won’t be bad for me. (from C2, C3)","B) Therefore, indeterminism is true. (from C2, C3)","C) Therefore, I could have done otherwise. (from C2, C3)","D) Therefore, it’s an untouchable fact that I am in PHI class on 11/6/2025. (from C2, C3)"]},
+  { q: " What is CR5 of The Consequence Argument?", choices:["A) Therefore, if determinism is true, death is bad. (from C1, C4)","B) Therefore, if determinism is true, we are responsible for our choices. (from C1, C4)","C) Therefore, if determinism is false, then I’m in PHI class on 11/6/2025. (from C1, C4)","D) Therefore, if determinism is true, then it is an untouchable fact that I’m in PHI class on 11/6/2025. (from C1, C4)"]},
+  { q: " What is AC1 of The Argument from Chance?", choices:["A) If determinism is true, then we are always free.","B) If indeterminism is true, then our choices are a matter of chance.","C) If determinism is true, then our choices are a matter of chance.","D) If indeterminism is true, then we are always free."]},
+  { q: " What is AC2 of The Argument from Chance?", choices:["A) We control everything that occurs as a matter of chance.","B) We control only second-order desires.","C) We don’t control what occurs as a matter of chance.","D) We don’t control untouchable facts."]},
+  { q: " What is AC3 of The Argument from Chance?", choices:["A) We are responsible for everything we can’t control.","B) We aren’t responsible for the things we can’t control.","C) We are responsible for untouchable facts.","D) We aren’t responsible for what is morally virtuous."]},
+  { q: " What is AC4 of The Argument from Chance?", choices:["A) Therefore, if determinism is false, then we are responsible for our choices.","B) Therefore, if indeterminism is true, then we aren’t responsible for our choices.","C) Therefore, if determinism is true, then we aren’t responsible for our choices.","D) Therefore, if indeterminism is true, then we are responsible for our choices."]},
+  { q: " What is BC1 of The Bad Consequences Argument?", choices:["A) Belief in libertarianism has bad consequences.","B) Belief in determinism has no consequences.","C) Belief in hard incompatibilism has bad consequences.","D) Belief in hedonism has bad consequences."]},
+  { q: " What is BC2 of The Bad Consequences Argument?", choices:["A) We should hold any belief that feels good.","B) We should never punish criminals.","C) We should not hold beliefs that have bad consequences.","D) We should only hold beliefs we can control."]},
+  { q: " What is BC3 of The Bad Consequences Argument?", choices:["A) Therefore, determinism is false.","B) Therefore, death is bad.","C) Therefore, we should not believe hard incompatibilism.","D) Therefore, hard incompatibilism is true."]},
+  { q: " What is NB1 of The Death Is Not Bad Argument?", choices:["A) Something is bad for me if it’s untouchable.","B) Something can be bad for me only if I can experience it.","C) Something is bad for me if it’s painful to others.","D) Something can be bad for me only if I desire it."]},
+  { q: " What is NB2 of The Death Is Not Bad Argument?", choices:["A) I always exist necessarily.","B) I can experience being dead.","C) I can’t experience being dead.","D) I won’t exist when I sleep."]},
+  { q: " What is NB3 of The Death Is Not Bad Argument?", choices:["A) Therefore, pleasure is the only good.","B) Therefore, being dead will be the worst thing for me.","C) Therefore, being dead won’t be bad for me.","D) Therefore, virtue is the only good."]},
+  { q: " What is FA1 of Aristotle’s Function Argument?", choices:["A) The good human life is being biologically alive.","B) The good human life is whatever society approves of.","C) The good human life is one that excellently fulfills the characteristic human function.","D) The good human life is one of maximal net pleasure."]},
+  { q: " What is FA2 of Aristotle’s Function Argument?", choices:["A) The characteristic human function is sense-perception.","B) The characteristic human function is action involving reason.","C) The characteristic human function is random choice.","D) The characteristic human function is pleasure-seeking."]},
+  { q: " What is FA3 of Aristotle’s Function Argument?", choices:["A) Therefore, the good life is a life without action.","B) Therefore, the good life is a life of chance.","C) Therefore, the good life is a life of excellent action involving reason.","D) Therefore, the good life is a life of vain desire."]},
+  { q: " What is FA4 of Aristotle’s Function Argument?", choices:["A) The life of pleasure is a morally virtuous life.","B) The life of indeterminism is a morally virtuous life.","C) The life of excellent action involving reason is a morally virtuous life.","D) The life of sense-perception is a morally virtuous life."]},
+  { q: " What is FA5 of Aristotle’s Function Argument?", choices:["A) Therefore, the good life is a life of fatalism.","B) Therefore, the good life is a life of moral virtue.","C) Therefore, the good life is a life of maximal net pleasure.","D) Therefore, the good life is a life of untouchable facts."]},
+  { q: " What is the Desire Theory (of freedom)?", choices:["A) Freedom requires indeterminism.","B) Freedom is acting on whatever desire you have.","C) Freedom is living virtuously.","D) Freedom is the power to act on the desire you want to act on."]},
+  { q: " What is a first-order desire?", choices:["A) A desire for a first-order desire to be your will.","B) A desire about a first-order desire.","C) A desire to act in a particular way.","D) A desire to maximize net pleasure."]},
+  { q: " What is a second-order desire?", choices:["A) A desire to act in a particular way.","B) A desire about a first-order desire.","C) A desire for pain avoidance.","D) A desire that is always morally good."]},
+  { q: " What is a second-order volition?", choices:["A) A desire about a second-order desire.","B) A desire to act in a particular way.","C) A desire that is vain.","D) A desire for a first-order desire to be your will."]},
+  { q: " What is Frankfurt’s Higher-Order Desire Theory?", choices:["A) A person is free only if determinism is false.","B) A person is free when their will is controlled by their second-order volition.","C) A person is free only if they never act on desire.","D) A person is free only if they maximize pleasure."]},
+  { q: " What is the Sane Deep Self Theory?", choices:["A) A person is free when they feel pleasure.","B) A person is free when (i) their deep self controls their will and (ii) they are sane.","C) A person is free when they do what society approves of.","D) A person is free when they can time-travel."]},
+  { q: " What is an untouchable fact?", choices:["A) Any moral rule.","B) Any fact about desires.","C) A fact no human has ever had the power to change.","D) Any future fact."]},
+  { q: " What is the Untouchability Principle?", choices:["A) If q is untouchable then p is untouchable.","B) Only laws of nature are untouchable.","C) If p is untouchable and it’s untouchable that if p then q, then q is untouchable.","D) If p is untouchable then not-p is untouchable."]},
+  { q: " What is determinism?", choices:["A) Choices are random.","B) Everything happens necessarily.","C) Past state of the world + laws of nature entail every future state.","D) The future is open in many ways."]},
+  { q: " What is fatalism?", choices:["A) Pleasure is the only good.","B) Past state + laws entail the future.","C) Only one possible sequence of events; everything happens necessarily.","D) Freedom is compatible with determinism."]},
+  { q: " What is the Ability To Do Otherwise (AO) condition?", choices:["A) A person acts freely only if they could have acted differently.","B) A person acts freely only if they desire it.","C) A person acts freely only if determinism is false.","D) A person acts freely only if they act virtuously."]},
+  { q: " What is compatibilism?", choices:["A) Free will requires fatalism.","B) Free will is compatible with determinism.","C) We never have free will.","D) Free will is incompatible with determinism."]},
+  { q: " What is incompatibilism?", choices:["A) Freedom equals virtue.","B) Freedom equals pleasure.","C) Free will is incompatible with determinism.","D) Free will is compatible with determinism."]},
+  { q: " What is libertarian incompatibilism?", choices:["A) Compatibilism is true and we have free will.","B) Incompatibilism is true and we have free will.","C) Indeterminism is true and we have no free will.","D) Determinism is true and we have no free will."]},
+  { q: " What is hard incompatibilism?", choices:["A) Fatalism is true and we have free will.","B) Compatibilism is true and we don’t have free will.","C) Incompatibilism is true and we don’t have free will (either way).","D) Determinism is false and we have free will."]},
+  { q: " What is the retributivist theory of punishment?", choices:["A) Punishment is never justified.","B) Punishment is justified because criminals deserve it.","C) Punishment is justified only to maximize pleasure.","D) Punishment is justified only to quarantine."]},
+  { q: " What is the contagion theory of punishment?", choices:["A) Punishment is justified only for revenge.","B) Punishment is justified because criminals deserve it.","C) Punishment is justified like quarantine to prevent further harm.","D) Punishment is justified only if determinism is false."]},
+  { q: " What is the hedonistic theory of value?", choices:["A) Desire-satisfaction is the only intrinsic good.","B) Pleasure is the only intrinsic good; pain the only intrinsic bad.","C) Knowledge is the only intrinsic good.","D) Virtue is the only intrinsic good."]},
+  { q: " What is hedonism (about the good life)?", choices:["A) The best life is being dead.","B) The best life is whatever society approves.","C) The best life is one of maximal net pleasure.","D) The best life is moral virtue."]},
+  { q: " What is net pleasure in a life?", choices:["A) Pain minus pleasure.","B) Pleasure without any pain ever.","C) Pleasure caused only by virtue.","D) Total pleasure minus total pain in that life."]},
+  { q: " What is Nozick’s experience machine?", choices:["A) A machine that makes you virtuous.","B) A machine that eliminates desires.","C) A machine that can give you any experiences you want.","D) A machine that proves determinism."]},
+  { q: " What is a final end (Aristotle)?", choices:["A) Anything society values.","B) A goal pursued only for something else.","C) Something desired for its own sake and not for anything further.","D) Anything that produces pleasure."]},
+  { q: " What is the Virtue Theory of the good life?", choices:["A) The good life is satisfying vain desires.","B) The good life is a morally virtuous life.","C) The good life is maximal net pleasure.","D) The good life is acting randomly."]},
+  { q: " What is moral virtue (Aristotle)?", choices:["A) Maximizing pleasure.","B) A habit to have right feelings and act according to them.","C) Eliminating all desires.","D) A one-off good action."]},
+  { q: " What is function-dependence (FD)?", choices:["A) Goodness is untouchable facts.","B) Goodness is only pleasure.","C) What makes something a good K depends on the characteristic function of K.","D) Goodness is only cultural approval."]}
 ];
 
 // Best-effort inferred correct answer indices (0-based). If unknown or you want to mark later, set null.
