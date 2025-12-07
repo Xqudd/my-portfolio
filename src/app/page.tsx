@@ -1,261 +1,234 @@
 "use client";
-import Image from "next/image";
-import styles from "./IndentedList.module.css";
-import CodeBlock from "./CodeBlock.js";
+
+import { useEffect, useRef } from "react";
+import * as THREE from "three";
+import gsap from "gsap";
+
+export default function HomePage() {
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+
+  useEffect(() => {
+  const canvas = canvasRef.current!;
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(45, window.innerWidth / 450, 0.1, 100);
+
+  // Start with camera centered
+  const canvasHeight = 450;
+  camera.position.set(0, 0, 3.6);
+
+  // Lights
+  const light1 = new THREE.DirectionalLight(0xffffff, 0.7);
+  light1.position.set(4, 4, 4);
+  scene.add(light1);
+  scene.add(new THREE.AmbientLight(0xffffff, 0.5));
+
+  // Icosahedron
+  const geo = new THREE.IcosahedronGeometry(1, 3);
+  const pos = geo.attributes.position;
+  const base = new Float32Array(pos.array);
+  const mat = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.2, metalness: 0.8 });
+  const mesh = new THREE.Mesh(geo, mat);
+  scene.add(mesh);
+
+  const wire = new THREE.LineSegments(
+    new THREE.WireframeGeometry(geo),
+    new THREE.LineBasicMaterial({ color: 0xffffff, opacity: 0.08, transparent: true })
+  );
+  scene.add(wire);
+
+  // Particles
+  const pGeo = new THREE.BufferGeometry();
+  const pCount = 900;
+  const arr = new Float32Array(pCount * 3);
+  for (let i = 0; i < pCount; i++) {
+    arr[i * 3] = (Math.random() * 2 - 1) * 6;
+    arr[i * 3 + 1] = (Math.random() * 2 - 1) * 6;
+    arr[i * 3 + 2] = (Math.random() * 2 - 1) * 6;
+  }
+  pGeo.setAttribute("position", new THREE.BufferAttribute(arr, 3));
+  scene.add(new THREE.Points(pGeo, new THREE.PointsMaterial({ size: 0.02, opacity: 0.5, transparent: true })));
+
+  // Resize function
+  const canvasWrap = canvasRef.current!.parentElement!;
+
+const resize = () => {
+  const w = canvasWrap.clientWidth;
+  const h = canvasWrap.clientHeight;
+  renderer.setSize(w, h);
+  camera.aspect = w / h;
+  camera.updateProjectionMatrix();
+};
+resize();
+window.addEventListener("resize", resize);
 
 
-export default function Home() {
+  // Animate
+  let t = 0;
+  const clock = new THREE.Clock();
+
+  const animate = () => {
+    t += clock.getDelta() * 0.7;
+
+    for (let i = 0; i < pos.count; i++) {
+      const ix = i * 3;
+      const x = base[ix], y = base[ix + 1], z = base[ix + 2];
+      const n = Math.sin(x * 3 + t) * 0.1 + Math.cos(y * 3 + t) * 0.1;
+      pos.array[ix] = x + n * 0.3;
+      pos.array[ix + 1] = y + n * 0.3;
+      pos.array[ix + 2] = z + n * 0.3;
+    }
+    pos.needsUpdate = true;
+
+    mesh.rotation.y += 0.006;
+    wire.rotation.copy(mesh.rotation);
+    mat.color.setHSL(0.65 + Math.sin(t * 0.5) * 0.03, 0.7, 0.6);
+
+    renderer.render(scene, camera);
+    requestAnimationFrame(animate);
+  };
+  animate();
+
+  // Mouse parallax
+  const onMouseMove = (e: MouseEvent) => {
+    const nx = (e.clientX / window.innerWidth - 0.5) * 2;
+    const ny = (e.clientY / canvasHeight - 0.5) * 2;
+    gsap.to(camera.position, {
+      x: nx * 0.7,
+      y: -ny * 0.4, // small vertical movement, keeps object centered
+      duration: 0.6,
+      ease: "power2.out",
+    });
+  };
+  window.addEventListener("mousemove", onMouseMove);
+
+  return () => {
+    window.removeEventListener("resize", resize);
+    window.removeEventListener("mousemove", onMouseMove);
+  };
+}, []);
+
+
   return (
-    <div
-      style={{
-        minHeight: "100vh",
-        backgroundImage: "url('/background.jpg')",
-        backgroundAttachment: "fixed",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center", // centers content vertically on first load
-        alignItems: "center",
-      }}
-    >
-      {/* Hero Section */}
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-          padding: "4rem 1rem",
-        }}
-      >
-        
-      </div>
-
-      {/* Main Content */}
-      <main
-        className="flex flex-col gap-8 items-center bg-white py-10 px-4 sm:px-12"
-        style={{
-          maxWidth: "900px",
-          margin: "2rem auto",
-          borderRadius: "12px",
-          boxShadow: "0 4px 20px rgba(0,0,0,0.2)",
-        }}
-      >
-        <h2
-          style={{
-            color: "black",
-            textAlign: "center",
-            textShadow: "0 0 8px white, 0 0 16px white",
-            fontSize: "2rem",
-            fontWeight: "bold",
-          }}
-        >
-          Anden&apos;s
-        </h2>
-        <h1 className="animated-text text-3xl sm:text-4xl font-bold text-center">
-          Eportfolio
-        </h1>
-
-        {/* Quick Skills Snapshot */}
-        <section className="max-w-3xl text-center">
-          <h2 style ={{color: "black"}}> Skills Snapshot</h2>
-          <p className="text-gray-700">
-            Python • Java • JavaScript • C • Scratch • Robotics • Arduino (Elegoo Uno R3) •
-            Web Development • Breadboarding • Circuit Design • Game Development
-          </p>
-        </section>
-
-        {/* About Me Section */}
-        <details className="max-w-3xl w-full">
-          <summary className="cursor-pointer font-semibold text-lg">
-            About Me
-          </summary>
-          <p className="mt-2">
-            I am a student at UCF pursuing a degree in Computer Science. I&apos;m passionate about
-            problem-solving, building real-world projects, and always eager to learn new
-            technologies.
-          </p>
-        </details>
-
-        {/* Technical Skills Section */}
-        <details className="max-w-3xl w-full">
-          <summary className="cursor-pointer font-semibold text-lg">
-            Technical Skills
-          </summary>
-          <ul className={styles.indentedList}>
-            <li>
-              <strong>Python:</strong> Robotics projects, breadboards, distance-sensing glasses,
-              LED matrix animations, Weather systems made for implementation to a sprinkler system
-              <details> <summary>Weather System Program</summary>
-
-              <iframe
-      src="/terminal.html"
-      style={{
-        width: '100%',
-        height:'600px',
-      }}
-    />
-
-
-
-              </details>
-            </li>
-            <li>
-              <strong>Java programming:</strong> Learned through AP Computer Science, practiced with object-oriented projects.
-            </li>
-            <li>
-              <strong>JavaScript programming:</strong> Game development (MakeCode Arcade), and interactive web pages.
-              <details>
-                <summary>Game example</summary> 
-                <div className="relative w-[300px] sm:w-[500px] h-[600px] mt-2">
-                  <iframe
-                    className="absolute inset-0 w-full h-full rounded-lg shadow-lg"
-                    src="https://arcade.makecode.com/---run?id=S69962-65495-67851-29785"
-                    allowFullScreen
-                    sandbox="allow-popups allow-forms allow-scripts allow-same-origin"
-                    frameBorder="0"
-                  ></iframe>
-                </div>
-              </details>
-            </li>
-            <li>
-              <strong>C programming:</strong> Coursework experience as well as miscellenous personal projects.
-            </li>
-            <li>
-              <strong>C++ programming:</strong> Use of C++ through unity game development
-              <details><summary>I plan to add a unity game to itch.io eventualy</summary>
-              see if games have been added yet
-              <a
-            className="rounded-full border border-black/10 dark:border-white/20 hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] font-medium text-base h-12 px-5 flex items-center justify-center transition-colors"
-            href="https://xqudd.itch.io"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            More on Itch.io
-          </a>
-              </details>
-            </li>
-            <li>
-              <strong>Html: </strong> Projects like the website you are on right now
-              <details>
-               <summary>Cool html thing</summary>
-                      <iframe
-                        src="/skills.html"
-                        style={{
-                          width: "100%",
-                          height: "600px",
-                          border: "1px solid #ccc",
-                          borderRadius: "8px",
-                        }}
-                        ></iframe>
-
-              </details>
-            </li>
-            <li>
-              <strong>Scratch:</strong> How I first started coded years and years ago
-              <details>
-                <summary>Scratch game embed, because the more games in an Eportfolio the better</summary>
-                <p className="text-sm mb-2">
-                  W/Space to jump, arrows/WASD to move
-                </p>
-                <iframe
-                  src="https://scratch.mit.edu/projects/1213549385/embed"
-                  width="485"
-                  height="402"
-                  frameBorder="0"
-                  allowFullScreen
-                  className="rounded-lg shadow-lg mx-auto"
-                ></iframe>
-              </details>
-            </li>
+    <div style={styles.page}>
+      <section style={styles.hero}>
+        <div id="about" className="fade" style={styles.heroText}>
+          <h1 style={styles.h1}>Anden Herman</h1>
+          <ul style={{ paddingLeft: 0, marginTop: 12, lineHeight: "1.7" }}>
+            {[
+              "2 years of experience teaching game development at Code Ninjas",
+              "Strong in Unity, C#, gameplay programming, and interactive systems",
+              "Fast-learning, creative, always building tools and prototypes"
+            ].map((text) => (
+              <li key={text} style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 6, opacity: 0.85 }}>
+                <div style={{ width: 8, height: 8, borderRadius: "50%", background: "linear-gradient(90deg,#7b61ff,#00e0a1)", boxShadow: "0 0 10px #7b61ff" }} />
+                {text}
+              </li>
+            ))}
           </ul>
-        </details>
 
-        {/* Projects Section */}
-        <details className="max-w-3xl w-full">
-          <summary className="cursor-pointer font-semibold text-lg">
-             Projects
-          </summary>
-          <ul className={styles.indentedList}>
-            <li>
-              <strong>Custom TENS unit:</strong> Custom electronics project using an Elegoo Uno R3,
-              transistors, diodes, potentiometers, and a PWM signal for muscle stimulation.
-            </li>
-            <li>
-              <strong>Distance-Sensing Glasses:</strong> Python + microcontroller + buzzer to warn
-              when approaching objects.
-            </li>
-            <li>
-              <strong>LED Matrix Animations:</strong> Custom messages & graphics on LED boards.
-              <details>
-                <summary>Images</summary>
-                <div className="flex flex-wrap gap-4 mt-2">
-                  <Image
-                    src="/MoneyLed.jpg"
-                    alt="Money LED"
-                    width={200}
-                    height={100}
-                  />
-                  <Image
-                    src="/StarLed.jpg"
-                    alt="Star LED"
-                    width={200}
-                    height={100}
-                  />
-                </div>
-                <details>
-                  <summary>Related Code</summary>
-                  <CodeBlock language="python" />
-                </details>
-              </details>
-            </li>
-            <li>
-              <strong>Custom Electric GoKart:</strong> 3D modeling and some 3D printing for scale models, metal working for the actual thing, wiring, motor controller programming
-            </li>
-          </ul>
-        </details>
+          <div id="skills" style={styles.skills}>
+            {["Unity", "C#", "C", "Python", "Java", "HTML/CSS/JS", "Game Design"].map(s => (
+              <div key={s} style={styles.chip}>{s}</div>
+            ))}
+          </div>
 
-        {/* Fun Facts Section */}
-        
-
-        {/* Buttons */}
-        <div className="flex flex-col sm:flex-row gap-4 mt-8">
-          <a
-            className="rounded-full border border-transparent bg-foreground text-background hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-base h-12 px-5 flex items-center justify-center gap-2 transition-colors"
-            href="https://youtu.be/dQw4w9WgXcQ?si=MzcZrxyicFOg53ny"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              width={20}
-              height={20}
-            />
-            What does this button do?
-          </a>
-
-          <a
-            className="rounded-full border border-black/10 dark:border-white/20 hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] font-medium text-base h-12 px-5 flex items-center justify-center transition-colors"
-            href="https://xqudd.itch.io"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            More on Itch.io
-          </a>
-          
+          <div style={{ marginTop: 20, display: "flex", gap: 12 }}>
+            <a href="https://github.com/" target="_blank" style={styles.social}>GitHub</a>
+            <a href="https://www.linkedin.com/" target="_blank" style={styles.social}>LinkedIn</a>
+            <a href="/resume.pdf" download style={styles.social}>Resume</a>
+          </div>
         </div>
-       
-  <p>
-    Connect : 
-    <a href="mailto:anden.herman@gmail.com">Email</a> |
-    <a href="https://github.com/Xqudd">GitHub</a> |
-    <a href="https://www.linkedin.com/in/anden-herman/">LinkedIn</a>
-  </p>
-      </main>
+
+        <div className="fade" style={styles.canvasWrap}>
+          <canvas ref={canvasRef} style={{ width: "100%", height: "100%" }} />
+        </div>
+      </section>
+
+
+      {/* ---------------- CONTACT ---------------- */}
+      <section id="contact" className="fade" style={styles.cardSection}>
+        <h2 style={styles.h2}>Contact</h2>
+        <p style={styles.sub}>Interested in working together? Send a message below.</p>
+
+        {/* REAL Email Integration (Formspree) */}
+        <form
+          action="https://formspree.io/f/xpwvlvwv"
+          method="POST"
+          style={styles.form}
+        >
+          <input name="name" placeholder="Name" required style={styles.input} />
+          <input name="email" type="email" placeholder="Email" required style={styles.input} />
+          <textarea name="message" placeholder="Message" rows={4} required style={styles.textarea}></textarea>
+          <button style={styles.button}>Send Message</button>
+        </form>
+      </section>
     </div>
   );
 }
+
+// ---------------- STYLES ----------------
+const styles: Record<string, any> = {
+  page: { fontFamily: "Inter, sans-serif", paddingBottom: "60px", background: "#0b1020", color: "white" },
+  hero: { marginTop: 0, display: "grid", gridTemplateColumns: "1fr 1fr", width: "92%", maxWidth: 1100, marginInline: "auto", gap: 40 },
+  heroText: { marginTop: 30 },
+  h1: { fontSize: 44, fontWeight: 800, marginBottom: 12 },
+  skills: { display: "flex", flexWrap: "wrap", gap: 10, marginTop: 16 },
+  chip: { padding: "8px 12px", borderRadius: 999, background: "rgba(255,255,255,0.08)", fontSize: 14 },
+  social: { padding: "8px 14px", background: "rgba(255,255,255,0.08)", borderRadius: 10, fontSize: 14, textDecoration: "none", color: "white" },
+  canvasWrap: { height: 450, borderRadius: 18, overflow: "hidden", background: "rgba(255,255,255,0.03)", backdropFilter: "blur(6px)" },
+  cardSection: {
+    width: "92%",
+    maxWidth: 1100,
+    margin: "80px auto 0",
+    padding: 24,
+    background: "rgba(255,255,255,0.03)",
+    borderRadius: 18,
+  },
+
+  h2: { fontSize: 30, marginBottom: 16 },
+
+  projectGrid: {
+    display: "grid",
+    gap: 14,
+    gridTemplateColumns: "repeat(auto-fit,minmax(240px,1fr))",
+  },
+
+  projectCard: {
+    padding: 16,
+    borderRadius: 12,
+    background: "rgba(255,255,255,0.05)",
+    textDecoration: "none",
+    color: "white",
+  },
+
+  form: { display: "flex", flexDirection: "column", gap: 10 },
+
+  input: {
+    padding: 12,
+    borderRadius: 10,
+    background: "rgba(255,255,255,0.05)",
+    border: "none",
+    color: "white",
+  },
+
+  textarea: {
+    padding: 12,
+    borderRadius: 10,
+    background: "rgba(255,255,255,0.05)",
+    border: "none",
+    color: "white",
+  },
+
+  button: {
+    padding: "12px 18px",
+    background: "linear-gradient(90deg,#7b61ff,#00e0a1)",
+    borderRadius: 12,
+    border: "none",
+    fontWeight: 700,
+    cursor: "pointer",
+    fontSize: 16,
+  },
+};
