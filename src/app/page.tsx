@@ -170,7 +170,7 @@ window.addEventListener("resize", resize);
 }
 
 // ---------------- STYLES ----------------
-const styles: Record<string, any> = {
+const styles: Record<string, React.CSSProperties> = {
   page: { fontFamily: "Inter, sans-serif", paddingBottom: "60px", background: "#0b1020", color: "white" },
   hero: { marginTop: 0, display: "grid", gridTemplateColumns: "1fr 1fr", width: "92%", maxWidth: 1100, marginInline: "auto", gap: 40 },
   heroText: { marginTop: 30 },
