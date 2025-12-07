@@ -136,9 +136,9 @@ window.addEventListener("resize", resize);
           </div>
 
           <div style={{ marginTop: 20, display: "flex", gap: 12 }}>
-            <a href="https://github.com/" target="_blank" style={styles.social}>GitHub</a>
-            <a href="https://www.linkedin.com/" target="_blank" style={styles.social}>LinkedIn</a>
-            <a href="/resume.pdf" download style={styles.social}>Resume</a>
+            <a href="https://github.com/Xqudd" target="_blank" style={styles.social}>GitHub</a>
+            <a href="https://www.linkedin.com/in/anden-herman/" target="_blank" style={styles.social}>LinkedIn</a>
+            <a href="/Resume.pdf" download style={styles.social}>Resume</a>
           </div>
         </div>
 
