@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react";
 import * as THREE from "three";
 import gsap from "gsap";
-
+//test
 export default function HomePage() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
