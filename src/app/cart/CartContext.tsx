@@ -32,7 +32,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     try {
       const stored = localStorage.getItem("cart");
       if (stored) setItems(JSON.parse(stored));
-    } catch (e) {
+    } catch {
       // ignore
     } finally {
       setHydrated(true);
@@ -43,7 +43,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     if (!hydrated) return;
     try {
       localStorage.setItem("cart", JSON.stringify(items));
-    } catch (e) {
+    } catch {
       // ignore
     }
   }, [items, hydrated]);
