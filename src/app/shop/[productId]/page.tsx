@@ -1,7 +1,6 @@
 "use client";
 
 import { products, Product } from "@/lib/products";
-import { designs, Design } from "@/lib/designs";
 import { useCart } from "@/app/cart/CartContext";
 import { notFound } from "next/navigation";
 import { useState } from "react";
@@ -18,7 +17,6 @@ export default function ProductPage({
 
   const [size, setSize] = useState<string>("");
   const [color, setColor] = useState<string>("");
-  const [designId, setDesignId] = useState<string>(designs[0].id);
   const [added, setAdded] = useState(false);
 
   const { addItem } = useCart();
@@ -29,8 +27,7 @@ export default function ProductPage({
   if (size === "") setSize(product.sizes[0]);
   if (color === "") setColor(product.colors[0]);
 
-  const design = designs.find((d: Design) => d.id === designId)!;
-  const price = product.basePrice + design.extraCost;
+  const price = product.basePrice;
 
   return (
     <div style={{ minHeight: "100vh", backgroundColor: "#fafaf9" }}>
@@ -173,30 +170,6 @@ export default function ProductPage({
             </label>
           </div>
 
-          <div>
-            <div style={{ fontSize: 12, color: "#6b7280", marginBottom: 8, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.5px" }}>Design</div>
-            <select
-              value={designId}
-              onChange={(e) => setDesignId(e.target.value)}
-              style={{
-                width: "100%",
-                padding: "12px 12px",
-                borderRadius: 10,
-                border: "1px solid #e5e7eb",
-                background: "#fff",
-                fontSize: "0.95rem",
-                fontWeight: 500,
-                cursor: "pointer",
-              }}
-            >
-              {designs.map((d: Design) => (
-                <option key={d.id} value={d.id}>
-                  {d.name} {d.extraCost ? `(+ $${d.extraCost})` : ""}
-                </option>
-              ))}
-            </select>
-          </div>
-
           <button
             onClick={() => {
               addItem({
@@ -204,7 +177,6 @@ export default function ProductPage({
                 productId: product.id,
                 name: product.name,
                 image: product.image,
-                designId,
                 size,
                 color,
                 price,

@@ -5,12 +5,10 @@ import { createContext, useContext, useEffect, useState } from "react";
 export interface CartItem {
   id: string;
   productId?: string;
-  designId?: string;
   name?: string;
   image?: string;
   size?: string;
   color?: string;
-  design?: string;
   price: number;
   quantity: number;
 }

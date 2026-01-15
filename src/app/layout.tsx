@@ -14,8 +14,12 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Hire Anden",
-  description: "Hire him he's cool",
+  title: {
+    default: "Herman&Co",
+    template: "%s | Herman&Co",
+  },
+  description:
+    "Outdoor-inspired apparel designed for exploration, comfort, and time spent outside.",
 };
 
 export default function RootLayout({
