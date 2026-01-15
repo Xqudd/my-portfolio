@@ -11,7 +11,7 @@ export async function POST(req: Request) {
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ["card"],
     mode: "payment",
-    line_items: items.map((item: any) => ({
+    line_items: items.map((item: { productId: string; size: string; color: string; designId: string; price: number; quantity: number }) => ({
       price_data: {
         currency: "usd",
         product_data: {

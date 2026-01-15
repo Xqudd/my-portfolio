@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import { Product } from "@/lib/products";
 
@@ -9,57 +11,97 @@ export default function ProductCard({ product }: { product: Product }) {
     >
       <div
         style={{
-          borderRadius: 12,
+          backgroundColor: "#fff",
+          borderRadius: "16px",
           overflow: "hidden",
-          background: "#fff",
-          boxShadow: "0 6px 18px rgba(15,23,42,0.06)",
-          transition: "transform 180ms ease, boxShadow 180ms ease",
-          display: "flex",
-          flexDirection: "column",
+          boxShadow: "0 4px 15px rgba(0,0,0,0.08)",
+          transition: "all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)",
+          cursor: "pointer",
+          border: "1px solid #f0f0f0",
         }}
         className="product-card"
       >
         <div
           style={{
-            height: 180,
-            background: `linear-gradient(180deg, #f5f7fb 0%, #eef2ff 100%)`,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            color: "#9aa4b2",
-            fontSize: 14,
+            height: "280px",
+            backgroundImage: `url('/shop/products/${product.image}')`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            position: "relative",
+            overflow: "hidden",
           }}
         >
-          Image
+          <div
+            style={{
+              position: "absolute",
+              inset: 0,
+              background: "linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.1) 100%)",
+              opacity: 0,
+              transition: "opacity 0.3s ease",
+            }}
+            className="image-overlay"
+          />
         </div>
 
-        <div style={{ padding: 16, display: "flex", flexDirection: "column", gap: 8 }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 12 }}>
-            <h3 style={{ margin: 0, fontSize: 16 }}>{product.name}</h3>
-            <div style={{ color: "#111", fontWeight: 700 }}>${product.basePrice}</div>
-          </div>
-
-          <p style={{ margin: 0, color: "#56606c", fontSize: 13, lineHeight: 1.3 }}>
-            {product.description ?? "Clean, minimalist design."}
+        <div style={{ padding: "1.75rem" }}>
+          <p
+            style={{
+              fontSize: "0.8rem",
+              letterSpacing: "1px",
+              textTransform: "uppercase",
+              color: "#999",
+              marginBottom: "0.5rem",
+              fontWeight: 500,
+            }}
+          >
+            Essentials
           </p>
-
-          <div style={{ marginTop: 8, display: "flex", gap: 8 }}>
-            <button
+          <h3
+            style={{
+              marginBottom: "0.75rem",
+              fontSize: "1.25rem",
+              fontWeight: 600,
+              color: "#2d3436",
+            }}
+          >
+            {product.name}
+          </h3>
+          <p style={{ color: "#6b7280", fontSize: "0.95rem", marginBottom: "1rem", lineHeight: 1.5 }}>
+            {product.description}
+          </p>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <div style={{ color: "#2d3436", fontWeight: 700, fontSize: "1.1rem" }}>
+              ${product.basePrice}
+            </div>
+            <div
               style={{
-                marginLeft: "auto",
-                padding: "8px 12px",
-                borderRadius: 8,
-                border: "1px solid #e6e9ef",
-                background: "#fff",
-                fontWeight: 600,
-                cursor: "pointer",
+                color: "#78716c",
+                fontSize: "0.85rem",
+                fontWeight: 500,
+                transition: "color 0.3s ease",
               }}
-              aria-label={`View ${product.name}`}
             >
-              View
-            </button>
+              Explore →
+            </div>
           </div>
         </div>
+
+        <style>{`
+          .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.15);
+          }
+          
+          .product-card:hover .image-overlay {
+            opacity: 1;
+          }
+        `}</style>
       </div>
     </Link>
   );

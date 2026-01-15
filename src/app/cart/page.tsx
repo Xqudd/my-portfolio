@@ -55,9 +55,13 @@ export default function CartPage() {
                   justifyContent: "center",
                   color: "#9aa4b2",
                   fontSize: 13,
+                  backgroundImage: item.image ? `url('/shop/products/${item.image}')` : undefined,
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                  backgroundRepeat: "no-repeat",
                 }}
               >
-                Img
+                {!item.image && "Img"}
               </div>
 
               <div style={{ flex: 1 }}>
