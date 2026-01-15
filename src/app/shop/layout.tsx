@@ -1,11 +1,44 @@
 "use client";
 
-import { CartProvider } from "@/app/cart/CartContext";
+import Link from "next/link";
+import { CartButton } from "@/components/CartButton";
 
 export default function ShopLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  return <CartProvider>{children}</CartProvider>;
+  return (
+    <div
+      style={{
+        minHeight: "100vh",
+        backgroundColor: "#fafafa",
+        color: "#111",
+        fontFamily: "system-ui, sans-serif",
+      }}
+    >
+      {/* Header */}
+      <header
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          padding: "1.5rem 2rem",
+          borderBottom: "1px solid #e5e5e5",
+          backgroundColor: "#fff",
+        }}
+      >
+        <Link href="/shop" style={{ textDecoration: "none", color: "#111" }}>
+          <strong style={{ fontSize: "1.2rem" }}>ANDEN</strong>
+        </Link>
+
+        <CartButton />
+      </header>
+
+      {/* Main */}
+      <main style={{ padding: "2rem", maxWidth: "1200px", margin: "0 auto" }}>
+        {children}
+      </main>
+    </div>
+  );
 }

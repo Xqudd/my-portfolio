@@ -4,6 +4,7 @@ export interface Product {
   basePrice: number;
   sizes: string[];
   colors: string[];
+  description?: string;
 }
 
 export const products: Product[] = [
@@ -13,5 +14,6 @@ export const products: Product[] = [
     basePrice: 25,
     sizes: ["S", "M", "L", "XL"],
     colors: ["black", "white"],
+    description: "Clean, minimalist cotton tee."
   },
 ];
