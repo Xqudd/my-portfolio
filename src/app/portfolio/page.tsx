@@ -175,7 +175,7 @@ const styles: Record<string, React.CSSProperties> = {
   hero: { marginTop: 0, display: "grid", gridTemplateColumns: "1fr 1fr", width: "92%", maxWidth: 1100, marginInline: "auto", gap: 40 },
   heroText: { marginTop: 30 },
   h1: { fontSize: 44, fontWeight: 800, marginBottom: 12 },
-  skills: { display: "flex", flexWrap: "wrap", gap: 10, marginTop: 16 },
+  skills: { display: "flex", flexWrap: "wrap", gap: 5, marginTop: 16 },
   chip: { padding: "8px 12px", borderRadius: 999, background: "rgba(255,255,255,0.08)", fontSize: 14 },
   social: { padding: "8px 14px", background: "rgba(255,255,255,0.08)", borderRadius: 10, fontSize: 14, textDecoration: "none", color: "white" },
   canvasWrap: { height: 450, borderRadius: 18, overflow: "hidden", background: "rgba(255,255,255,0.03)", backdropFilter: "blur(6px)" },

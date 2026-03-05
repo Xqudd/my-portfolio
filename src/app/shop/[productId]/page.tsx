@@ -6,6 +6,7 @@ import { notFound } from "next/navigation";
 import { useState } from "react";
 import { nanoid } from "nanoid";
 import { use } from "react";
+import ProductImageGallery from "@/components/ProductImageGallery";
 
 export default function ProductPage({
   params,
@@ -76,32 +77,12 @@ export default function ProductPage({
             alignItems: "start",
           }}
         >
-          <div
-            style={{
-              borderRadius: 12,
-              overflow: "hidden",
-              background: "#fff",
-              boxShadow: "0 6px 18px rgba(15,23,42,0.06)",
-            }}
-          >
-            <div
-              style={{
-                height: 560,
-                backgroundImage: `url('/shop/products/${product.image}')`,
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-                backgroundRepeat: "no-repeat",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                color: "#9aa4b2",
-                fontSize: 14,
-                position: "relative",
-              }}
-            >
-              {!product.image && "Image"}
-            </div>
-          </div>
+          <ProductImageGallery
+            productId={product.id}
+            productName={product.name}
+            selectedColor={color}
+            mainImage={product.image}
+          />
 
         <aside
           style={{

@@ -12,7 +12,7 @@ export const products: Product[] = [
   {
     id: "classic-tee",
     name: "Trail Tee",
-    basePrice: 25,
+    basePrice: 32.99,
     sizes: ["S", "M", "L", "XL"],
     colors: ["black", "white"],
     description: "Breathable cotton essentials for every trail. Simple, durable, ready for adventure.",
@@ -21,19 +21,19 @@ export const products: Product[] = [
   {
     id: "classic-hoodie",
     name: "Summit Hoodie",
-    basePrice: 45,
+    basePrice: 59.99,
     sizes: ["S", "M", "L", "XL"],
     colors: ["black", "white"],
     description: "Warm layers for mountain camps and cool mornings. Your go-to around the fire.",
     image: "hoodie.jpg",
   },
-  {
-    id: "classic-jacket",
-    name: "Explorer Jacket",
-    basePrice: 65,
-    sizes: ["S", "M", "L", "XL"],
-    colors: ["black", "white"],
-    description: "Weather-ready protection for serious explorers. Built for long days outdoors.",
-    image: "jacket.jpg",
-  },
+//  {
+//    id: "classic-jacket",
+//    name: "Explorer Jacket",
+//    basePrice: 65,
+//    sizes: ["S", "M", "L", "XL"],
+//    colors: ["black", "white"],
+//    description: "Weather-ready protection for serious explorers. Built for long days outdoors.",
+//    image: "jacket.jpg",
+//  },
 ];
