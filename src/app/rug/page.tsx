@@ -20,7 +20,6 @@ const images = [
   { src: "/rug/sarouk-angle.jpeg", alt: "Angled view showing the scale and border of the Sarouk rug" },
   { src: "/rug/sarouk-detail.jpeg", alt: "Close detail of the hand-knotted floral field" },
   { src: "/rug/sarouk-border.jpeg", alt: "Border and pile detail of the antique Sarouk rug" },
-  { src: "/rug/sarouk-label.jpeg", alt: "Studio label identifying the rug as an antique Persian Sarouk" },
 ];
 
 export default function RugPage() {
@@ -43,7 +42,7 @@ export default function RugPage() {
           <span className={styles.imageNote}>Photographed in natural showroom context</span>
         </div>
         <div className={styles.heroCopy}>
-          <p className={styles.eyebrow}>Private offering · Inventory R1091</p>
+          <p className={styles.eyebrow}>Private offering · Jacksonville, Florida</p>
           <h1 id="rug-title">An antique Persian Sarouk of exceptional scale.</h1>
           <p className={styles.lede}>
             A hand-knotted, room-size carpet with a saturated red field, deep blue border,
@@ -94,7 +93,7 @@ export default function RugPage() {
               <div className={styles.galleryImage}>
                 <Image src={image.src} alt={image.alt} fill sizes="(max-width: 800px) 100vw, 50vw" />
               </div>
-              <figcaption>{index === 3 ? "Original studio identification label" : image.alt}</figcaption>
+              <figcaption>{image.alt}</figcaption>
             </figure>
           ))}
         </div>
@@ -111,7 +110,7 @@ export default function RugPage() {
         </div>
         <form className={styles.form} action="https://formspree.io/f/xpwvlvwv" method="POST">
           <input type="hidden" name="_subject" value="Antique Sarouk rug inquiry — andenwebsite.com" />
-          <input type="hidden" name="rug" value="Antique Persian Sarouk · R1091 · $10,000" />
+          <input type="hidden" name="rug" value="Antique Persian Sarouk · $10,000" />
           <label>
             Name
             <input name="name" autoComplete="name" required />
@@ -149,7 +148,7 @@ export default function RugPage() {
       </section>
 
       <footer className={styles.footer}>
-        <p>{"Antique Persian Sarouk · 11'9\" × 20'0\" · R1091"}</p>
+        <p>{"Antique Persian Sarouk · 11'9\" × 20'0\" · Private offering"}</p>
         <a href="mailto:Anden.Herman@gmail.com?subject=Antique%20Sarouk%20rug%20inquiry">Email directly</a>
       </footer>
     </main>
